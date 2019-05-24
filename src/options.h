@@ -4,32 +4,6 @@
 #include <string>
 #include <list>
 
-/*
-	커맨드라인 파서
-
-	기본형식
-		app.exe -log -file filename1 filename2 -path foldername
-
-	사용법
-		bool            isLog;
-		std::vector<std::wstring> fileList;
-		std::wstring         foldername;
-
-
-		Options options;		
-		
-		options.Add(L"log",  L"로그 출력여부",     isLog);
-		options.Add(L"file", L"복사대상 파일목록", fileList);
-		options.Add(L"path", L"복사목표 폴더명",   foldername);
-
-
-		options.Parser(commandLine);
-
-		if (isLog)					{ 로그 처리 }
-		if (0 < fileList.size())	{ 파일 처리 }
-		if (!foldername.empty())	{ 폴더 처리 }
-*/
-
 class OptionSetBase;
 
 class Options
