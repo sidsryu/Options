@@ -135,6 +135,7 @@
     <ClInclude Include="src\AOptions.h" />
     <ClInclude Include="src\AOptionSet.h" />
     <ClInclude Include="src\AOptionSetBase.h" />
+    <ClInclude Include="test\catch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
