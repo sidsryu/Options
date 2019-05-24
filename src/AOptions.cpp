@@ -3,8 +3,8 @@
 
 AOptions::AOptions()
 : m_switch(L"-")
-, m_separator(L" ")
-, m_splitter(L" ")
+, m_keyValueSeparator(L" ")
+, m_serialSeparator(L" ")
 , m_quotation(L"\"")
 {
 	// do nothing
@@ -35,20 +35,20 @@ bool AOptions::SetSwitch(std::wstring newSwitch)
 	return true;
 }
 
-bool AOptions::SetSeparator(std::wstring newSeparator)
+bool AOptions::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
 {
-	if (newSeparator.empty())	return false;
+	if (newKeyValueSeparator.empty())	return false;
 
-	m_separator = MakeEscape(newSeparator);
+	m_keyValueSeparator = MakeEscape(newKeyValueSeparator);
 
 	return true;
 }
 
-bool AOptions::SetSplitter(std::wstring newSplitter)
+bool AOptions::SetSerialSeparator(std::wstring newSerialSeparator)
 {
-	if (newSplitter.empty())	return false;
+	if (newSerialSeparator.empty())	return false;
 
-	m_splitter = MakeEscape(newSplitter);
+	m_serialSeparator = MakeEscape(newSerialSeparator);
 
 	return true;
 }
@@ -94,7 +94,7 @@ bool AOptions::ParseOptions(std::wstring commandLine)
 		for (AOptionSetBase* optionSet : m_listOptions)
 		{
 			if (!optionSet->Match(option))	continue;				
-			if (!optionSet->SetArgument(arguments, m_splitter))	return false;				
+			if (!optionSet->SetArgument(arguments, m_serialSeparator))	return false;				
 		}
 	}
 
@@ -141,11 +141,11 @@ std::wstring AOptions::MakeMatchOption(void)
 			<< "("
 				<< "(?:"
 					<< MakeNotMatch(m_switch)
-					<< MakeNotMatch(m_separator)
+					<< MakeNotMatch(m_keyValueSeparator)
 				<< ".)+"
 			<< ")"
 			<< "(?:"									// 옵션값 시작
-				<< m_separator							
+				<< m_keyValueSeparator							
 				<< " *"
 				<< "(?:"
 					<< m_quotation
@@ -165,13 +165,13 @@ std::wstring AOptions::MakeMatchValue(std::wstring notMatch)
 	maker	<< "("
 				<< "(?:"							// 첫 옵션값
 					<< MakeNotMatch(notMatch)
-					<< MakeNotMatch(m_splitter)					
+					<< MakeNotMatch(m_serialSeparator)					
 				<< ".)+"
 				<< "(?:"							// 나머지 옵션값들
-				<< m_splitter
+				<< m_serialSeparator
 					<< "(?:"														
 						<< MakeNotMatch(notMatch)
-						<< MakeNotMatch(m_splitter)						
+						<< MakeNotMatch(m_serialSeparator)						
 					<< ".)+"
 				<< ")*"
 			<< ")";

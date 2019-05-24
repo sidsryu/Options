@@ -18,15 +18,15 @@ bool AOptionSetBase::Match(std::wstring option)
 	return m_option == option;
 }
 
-bool AOptionSetBase::Split(std::wstring arguments, std::wstring splitter)
+bool AOptionSetBase::Split(std::wstring arguments, std::wstring serialSeparator)
 {
 	std::wstringstream maker;
 	maker	<< " ?"									// l-trim
 			<< "("
-				<< "(?:(?!" << splitter << ").)+"	// an argument, 분리자 포함안함.
+				<< "(?:(?!" << serialSeparator << ").)+"	// an argument, 분리자 포함안함.
 			<< ")"
 			<< " *"									// r-trim
-			<< "(?:" << splitter << ")?";
+			<< "(?:" << serialSeparator << ")?";
 
 	std::wregex argumentPattern(maker.str());
 

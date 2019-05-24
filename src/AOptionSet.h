@@ -33,7 +33,7 @@ public:
 		m_outValue = false;
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring splitter)
+	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
 	{
 		// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
 		std::wregex pattern(L" *(true|t|yes|y|enable|e|allow|a)? *", std::regex_constants::icase);
@@ -64,7 +64,7 @@ public:
 	{
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring splitter)
+	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
 	{
 		m_outValue = arguments;
 		return true;	
@@ -87,7 +87,7 @@ public:
 		m_outValue = 0;
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring splitter)
+	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
 	{
 		m_outValue = _wtoi(arguments.c_str());
 		return true;
@@ -109,9 +109,9 @@ public:
 	{
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring splitter)
+	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
 	{
-		return Split(arguments, splitter);
+		return Split(arguments, serialSeparator);
 	}
 
 	virtual bool SetSplitArgument(std::wstring argument)
@@ -135,9 +135,9 @@ public:
 	{
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring splitter)
+	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
 	{
-		return Split(arguments, splitter);
+		return Split(arguments, serialSeparator);
 	}
 
 	virtual bool SetSplitArgument(std::wstring argument)

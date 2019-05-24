@@ -47,8 +47,8 @@ public:
 	bool Parse(std::wstring commandLine);
 	
 	bool SetSwitch(std::wstring newSwitch);
-	bool SetSeparator(std::wstring newSeparator);
-	bool SetSplitter(std::wstring newSplitter);
+	bool SetKeyValueSeparator(std::wstring newKeyValueSeparator);
+	bool SetSerialSeparator(std::wstring newSerialSeparator);
 
 private:
 	bool ValidCommandLine(std::wstring commandLine);
@@ -62,7 +62,7 @@ private:
 private:
 	std::list<AOptionSetBase*> m_listOptions;
 	std::wstring m_switch;
-	std::wstring m_separator;
-	std::wstring m_splitter;
+	std::wstring m_keyValueSeparator;
+	std::wstring m_serialSeparator;
 	std::wstring m_quotation;
 };

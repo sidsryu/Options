@@ -86,7 +86,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::wstring filename;
 
 		options.Add(L"file", L"", filename);
-		options.SetSeparator(L"=");
+		options.SetKeyValueSeparator(L"=");
 
 		REQUIRE(options.Parse(L"-file=filename"));
 
@@ -98,7 +98,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.SetSplitter(L",");
+		options.SetSerialSeparator(L",");
 
 		REQUIRE(options.Parse(L"-file first, second double, third"));
 
@@ -113,7 +113,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::wstring filenames;
 
 		options.Add(L"file", L"", filenames);
-		options.SetSplitter(L",");
+		options.SetSerialSeparator(L",");
 
 		REQUIRE(options.Parse(L"-file first, second double, third"));
 
@@ -137,7 +137,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::wstring filename;
 
 		options.Add(L"file", L"", filename);
-		options.SetSeparator(L"=>");
+		options.SetKeyValueSeparator(L"=>");
 
 		REQUIRE(options.Parse(L"-file=>filename"));
 
@@ -149,7 +149,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.SetSplitter(L";;");
+		options.SetSerialSeparator(L";;");
 
 		REQUIRE(options.Parse(L"-file first;;second double;;third"));
 
@@ -164,7 +164,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::wstring filenames;
 
 		options.Add(L"file", L"", filenames);
-		options.SetSplitter(L";;");
+		options.SetSerialSeparator(L";;");
 
 		REQUIRE(options.Parse(L"-file first;;second double;;third"));
 
@@ -177,8 +177,8 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 
 		options.Add(L"file", L"", fileList);
 		options.SetSwitch(L"-[");
-		options.SetSeparator(L"]=");
-		options.SetSplitter(L";;");
+		options.SetKeyValueSeparator(L"]=");
+		options.SetSerialSeparator(L";;");
 
 		REQUIRE(options.Parse(L"-[file]=first;;second double;;third"));
 
@@ -194,8 +194,8 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 
 		options.Add(L"file", L"", filenames);
 		options.SetSwitch(L"-[");
-		options.SetSeparator(L"]=");
-		options.SetSplitter(L";;");
+		options.SetKeyValueSeparator(L"]=");
+		options.SetSerialSeparator(L";;");
 
 		REQUIRE(options.Parse(L"-[file]=first;;second double;;third"));
 
@@ -249,7 +249,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.SetSplitter(L",");
+		options.SetSerialSeparator(L",");
 
 		REQUIRE(options.Parse(L"-file \"first, second double, 3-rd\""));
 
@@ -264,7 +264,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::wstring filenames;
 
 		options.Add(L"file", L"", filenames);
-		options.SetSplitter(L",");
+		options.SetSerialSeparator(L",");
 
 		REQUIRE(options.Parse(L"-file \"first, second double, 3-rd\""));
 

@@ -10,10 +10,10 @@ public:
 
 	bool Match(std::wstring option);
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring splitter) = 0;
+	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator) = 0;
 	
 protected:
-	bool Split(std::wstring arguments, std::wstring splitter);	
+	bool Split(std::wstring arguments, std::wstring serialSeparator);
 
 	virtual bool SetSplitArgument(std::wstring argument)	{ return false;	}
 

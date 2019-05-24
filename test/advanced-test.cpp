@@ -13,7 +13,7 @@ TEST_CASE("Parse command line for advanced case", "[advanced][todo][!hide]")
 		// app.exe extra argument -f
 	}
 
-	SECTION("Use shot switch (aka. no separator key-value)")
+	SECTION("Use shot switch (aka. no key-value separator)")
 	{
 		// -fFilename
 	}
