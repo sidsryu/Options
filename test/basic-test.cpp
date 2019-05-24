@@ -23,7 +23,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 	SECTION("Check values")
 	{
 		std::wstring filename;
-		int	count;
+		int count;
 
 		options.Add(L"file", L"", filename);
 		options.Add(L"count", L"", count);
