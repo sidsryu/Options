@@ -55,8 +55,8 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 	SECTION("Use custom switch")
 	{
 		bool help;
-		
-		options.Add(L"help", L"", help);				
+
+		options.Add(L"help", L"", help);
 		options.SetSwitch(L"/");
 
 		REQUIRE(options.Parse(L"/help"));
@@ -68,7 +68,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 	{
 		bool help;
 
-		options.Add(L"help", L"", help);				
+		options.Add(L"help", L"", help);
 		options.SetSwitch(L"*");
 
 		REQUIRE(options.Parse(L"*help"));
@@ -94,7 +94,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.Add(L"file", L"", filename);		
+		options.Add(L"file", L"", filename);
 		options.SetSplitter(L",");
 
 		REQUIRE(options.Parse(L"-file first, second double, third"));
@@ -113,7 +113,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.Add(L"file", L"", filename);		
+		options.Add(L"file", L"", filename);
 		options.SetSwitch(L"-[");
 		options.SetSeparator(L"]=");
 		options.SetSplitter(L".,");
@@ -132,7 +132,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 	{
 		std::vector<std::wstring> standaloneList;
 		std::vector<std::wstring> launchList;
-		
+
 		options.Add(L"standalone", L"", standaloneList);
 		options.Add(L"launch", L"", launchList);
 		options.SetSwitch(L"");
