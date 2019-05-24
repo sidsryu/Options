@@ -2,149 +2,146 @@
 #include "../src/AOptions.h"
 #include <regex>
 
-SUITE(Options)
+TEST_CASE("Parse command line for easy case.", "[basic]")
 {
-	struct TestOptions
+	AOptions options;
+
+	SECTION("Check exist keys")
 	{
-		AOptions m_options;
-	};
-
-	TEST_FIXTURE(TestOptions, Options)
-	{				
 		bool help;
-		bool debug;S
+		bool debug;
 
-		m_options.Add(L"help", L"", help);
-		m_options.Add(L"debug", L"", debug);
+		options.Add(L"help", L"", help);
+		options.Add(L"debug", L"", debug);
 
-		CHECK(m_options.Parse(L"-help"));
+		REQUIRE(options.Parse(L"-help"));
 
 		CHECK(help);
 		CHECK(!debug);
 	}
 
-	TEST_FIXTURE(TestOptions, ArgumentOptions)
+	SECTION("Check values")
 	{
 		std::wstring filename;
 		int		count;
 
-		m_options.Add(L"file", L"", filename);
-		m_options.Add(L"count", L"", count);
+		options.Add(L"file", L"", filename);
+		options.Add(L"count", L"", count);
 
-		CHECK(m_options.Parse(L"-file filename -count 10"));
+		REQUIRE(options.Parse(L"-file filename -count 10"));
 
 		CHECK(L"filename" == filename);
-		CHECK_EQUAL(10, count);
+		CHECK(count == 10);
 	}
 
-	TEST_FIXTURE(TestOptions, Arguments)
+	SECTION("Check multiple values")
 	{
 		std::wstring filename;
 		std::vector<std::wstring> fileList;
 
-		m_options.Add(L"file", L"", filename);
-		m_options.Add(L"file", L"", fileList);
+		options.Add(L"file", L"", filename);
+		options.Add(L"file", L"", fileList);
 
-		CHECK(m_options.Parse(L"-file first second third"));
+		REQUIRE(options.Parse(L"-file first second third"));
 
 		CHECK(L"first second third" == filename);
 
-		ASSERT_EQUAL(3, fileList.size());
+		REQUIRE(3 == fileList.size());
 		CHECK(L"first" == fileList[0]);
 		CHECK(L"second" == fileList[1]);
 		CHECK(L"third" == fileList[2]);
 	}
 
-	TEST_FIXTURE(TestOptions, CustomSwitch)
+	SECTION("Use custom switch")
 	{
 		bool help;
 		
-		m_options.Add(L"help", L"", help);				
-		m_options.SetSwitch(L"/");
+		options.Add(L"help", L"", help);				
+		options.SetSwitch(L"/");
 
-		CHECK(m_options.Parse(L"/help"));
+		REQUIRE(options.Parse(L"/help"));
 
 		CHECK(help);
 	}
 
-	TEST_FIXTURE(TestOptions, CustomSwitchWithRegexLetrer)
+	SECTION("Escape switch that regex literal")
 	{
 		bool help;
 
-		m_options.Add(L"help", L"", help);				
-		m_options.SetSwitch(L"*");
+		options.Add(L"help", L"", help);				
+		options.SetSwitch(L"*");
 
-		CHECK(m_options.Parse(L"*help"));
+		REQUIRE(options.Parse(L"*help"));
 
 		CHECK(help);
 	}
 
-	TEST_FIXTURE(TestOptions, CustomSeparator)
+	SECTION("Use custom key-value separator")
 	{
 		std::wstring filename;
 
-		m_options.Add(L"file", L"", filename);
-		m_options.SetSeparator(L"=");
+		options.Add(L"file", L"", filename);
+		options.SetSeparator(L"=");
 
-		CHECK(m_options.Parse(L"-file=filename"));
+		CHECK(options.Parse(L"-file=filename"));
 
 		CHECK(L"filename" == filename);
 	}
 
-	TEST_FIXTURE(TestOptions, CustomSplitter)
+	SECTION("Use custom value serial separator")
 	{
 		std::wstring filename;
 		std::vector<std::wstring> fileList;
 
-		m_options.Add(L"file", L"", fileList);
-		m_options.Add(L"file", L"", filename);		
-		m_options.SetSplitter(L",");
+		options.Add(L"file", L"", fileList);
+		options.Add(L"file", L"", filename);		
+		options.SetSplitter(L",");
 
-		CHECK(m_options.Parse(L"-file first, second double, third"));
+		REQUIRE(options.Parse(L"-file first, second double, third"));
 
 		CHECK(L"first, second double, third" == filename);
 
-		ASSERT_EQUAL(3, fileList.size());
+		REQUIRE(3 == fileList.size());
 		CHECK(L"first" == fileList[0]);
 		CHECK(L"second double" == fileList[1]);
 		CHECK(L"third" == fileList[2]);
 	}
 
-	TEST_FIXTURE(TestOptions, LongSwitchWithEtc)
+	SECTION("Use multiple character key-value separator")
 	{
 		std::wstring filename;
 		std::vector<std::wstring> fileList;
 
-		m_options.Add(L"file", L"", fileList);
-		m_options.Add(L"file", L"", filename);		
-		m_options.SetSwitch(L"-[");
-		m_options.SetSeparator(L"]=");
-		m_options.SetSplitter(L".,");
+		options.Add(L"file", L"", fileList);
+		options.Add(L"file", L"", filename);		
+		options.SetSwitch(L"-[");
+		options.SetSeparator(L"]=");
+		options.SetSplitter(L".,");
 
-		CHECK(m_options.Parse(L"-[file]=first.,second double.,third"));
+		REQUIRE(options.Parse(L"-[file]=first.,second double.,third"));
 
 		CHECK(L"first.,second double.,third" == filename);
 
-		ASSERT_EQUAL(3, fileList.size());
+		REQUIRE(3 == fileList.size());
 		CHECK(L"first" == fileList[0]);
 		CHECK(L"second double" == fileList[1]);
 		CHECK(L"third" == fileList[2]);
 	}
 
-	TEST_FIXTURE(TestOptions, NonSwitchOption)
+	SECTION("Use no-switch options")
 	{
 		std::vector<std::wstring> standaloneList;
 		std::vector<std::wstring> launchList;
 		
-		m_options.Add(L"standalone", L"", standaloneList);
-		m_options.Add(L"launch", L"", launchList);
-		m_options.SetSwitch(L"");
+		options.Add(L"standalone", L"", standaloneList);
+		options.Add(L"launch", L"", launchList);
+		options.SetSwitch(L"");
 
-		CHECK(m_options.Parse(L"launch test localhost 109 1 1 1"));
+		REQUIRE(options.Parse(L"launch test localhost 109 1 1 1"));
 
 		CHECK(standaloneList.empty());
 
-		ASSERT_EQUAL(6, launchList.size());
+		REQUIRE(6 == launchList.size());
 		CHECK(L"test" == launchList[0]);
 		CHECK(L"localhost" == launchList[1]);
 		CHECK(L"109" == launchList[2]);
@@ -153,31 +150,55 @@ SUITE(Options)
 		CHECK(L"1" == launchList[5]);
 	}
 
-	TEST_FIXTURE(TestOptions, DoubleQuotesArgument)
+	SECTION("Escape double quotes value")
 	{
 		std::wstring filename;
 		std::vector<std::wstring> fileList;
 
-		m_options.Add(L"file", L"", fileList);
-		m_options.Add(L"file", L"", filename);
-		m_options.SetSplitter(L",");
+		options.Add(L"file", L"", fileList);
+		options.Add(L"file", L"", filename);
+		options.SetSplitter(L",");
 
-		CHECK(m_options.Parse(L"-file \"first, second double, 3-rd\""));		
+		REQUIRE(options.Parse(L"-file \"first, second double, 3-rd\""));
 
 		CHECK(L"first, second double, 3-rd" == filename);
 
-		ASSERT_EQUAL(3, fileList.size());
+		REQUIRE(3 == fileList.size());
 		CHECK(L"first" == fileList[0]);
 		CHECK(L"second double" == fileList[1]);
 		CHECK(L"3-rd" == fileList[2]);			// 스위치 포함 문자열
 	}
+}
 
+TEST_CASE("Parse command line for advanced case", "[advanced][todo][!hide]")
+{
+	AOptions options;
 
-	// Reserve features
-	//TEST_FIXTURE(TestOptions, OutputDescription)		{}
-	//TEST_FIXTURE(TestOptions, ExtraArgument)			{}		// app.exe extra argument -f
-	//TEST_FIXTURE(TestOptions, ShorSwitch)				{}		// -fFilename
-	//TEST_FIXTURE(TestOptions, SingleArgument)			{}		// -f an_argument	
-	//TEST_FIXTURE(TestOptions, SetWhitespace)			{}		// -file first,second_double,third
-	//TEST_FIXTURE(TestOptions, CaseSensitive)			{}		// -FILE firname
+	SECTION("Print out auto generated help description") 
+	{}
+
+	SECTION("Check extra arguemnt (aka. dynamic switch)") 
+	{
+		// app.exe extra argument -f
+	}		
+
+	SECTION("Use shot switch (aka. no separator key-value)") 
+	{
+		// -fFilename
+	}
+
+	SECTION("Use whole value without quotes") 
+	{
+		// -f an_argument	
+	}
+	
+	SECTION("Use include whitespace values")
+	{
+		// -file first,second_double,third
+	}
+	
+	SECTION("Use case sensitive keys") 
+	{
+		// -FILE firname
+	}
 }
