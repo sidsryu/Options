@@ -1,21 +1,23 @@
 #pragma once
 
+#include <string>
+
 class AOptionSetBase
 {
 public:
-	AOptionSetBase(wstring option, wstring description);
+	AOptionSetBase(std::wstring option, std::wstring description);
 	~AOptionSetBase();
 
-	bool Match(wstring option);
+	bool Match(std::wstring option);
 
-	virtual bool SetArgument(wstring arguments, wstring splitter) = 0;
+	virtual bool SetArgument(std::wstring arguments, std::wstring splitter) = 0;
 	
 protected:
-	bool Split(wstring arguments, wstring splitter);	
+	bool Split(std::wstring arguments, std::wstring splitter);	
 
-	virtual bool SetSplitArgument(wstring argument)	{ return false;	}
+	virtual bool SetSplitArgument(std::wstring argument)	{ return false;	}
 
 private:
-	wstring m_option;
-	wstring m_description;
+	std::wstring m_option;
+	std::wstring m_description;
 };

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "crlLib.h"
 #include "AOptionSet.h"
+#include <string>
+#include <list>
 
 /*
 	커맨드라인 파서
@@ -11,8 +12,8 @@
 
 	사용법
 		bool            isLog;
-		vector<wstring> fileList;
-		wstring         foldername;
+		std::vector<std::wstring> fileList;
+		std::wstring         foldername;
 
 
 		AOptions options;		
@@ -31,37 +32,37 @@
 
 class AOptionSetBase;
 
-class CRL_API AOptions
+class AOptions
 {
 public:
 	AOptions();
 	virtual ~AOptions();
 
 	template<typename T>
-	void Add(wstring option, wstring description, T& outValue)
+	void Add(std::wstring option, std::wstring description, T& outValue)
 	{
 		m_listOptions.push_back(new AOptionSet<T>(option, description, outValue));
 	}
 
-	bool Parse(wstring commandLine);
+	bool Parse(std::wstring commandLine);
 	
-	bool SetSwitch(wstring newSwitch);
-	bool SetSeparator(wstring newSeparator);
-	bool SetSplitter(wstring newSplitter);
+	bool SetSwitch(std::wstring newSwitch);
+	bool SetSeparator(std::wstring newSeparator);
+	bool SetSplitter(std::wstring newSplitter);
 
 private:
-	bool ValidCommandLine(wstring commandLine);
-	bool ParseOptions(wstring commandLine);
+	bool ValidCommandLine(std::wstring commandLine);
+	bool ParseOptions(std::wstring commandLine);
 	
-	wstring MakeEscape(wstring text);
-	wstring MakeNotMatch(wstring text);
-	wstring MakeMatchOption(void);
-	wstring MakeMatchValue(wstring notMatch);
+	std::wstring MakeEscape(std::wstring text);
+	std::wstring MakeNotMatch(std::wstring text);
+	std::wstring MakeMatchOption(void);
+	std::wstring MakeMatchValue(std::wstring notMatch);
 
 private:
-	list<AOptionSetBase*> m_listOptions;
-	wstring m_switch;
-	wstring m_separator;
-	wstring m_splitter;
-	wstring m_quotation;
+	std::list<AOptionSetBase*> m_listOptions;
+	std::wstring m_switch;
+	std::wstring m_separator;
+	std::wstring m_splitter;
+	std::wstring m_quotation;
 };

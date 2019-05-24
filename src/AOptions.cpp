@@ -1,5 +1,5 @@
-#include "stdafx.h"
 #include "AOptions.h"
+#include <sstream>
 
 AOptions::AOptions()
 : m_switch(L"-")
@@ -12,13 +12,13 @@ AOptions::AOptions()
 
 AOptions::~AOptions()
 {
-	for each(AOptionSetBase* optionSet in m_listOptions)
+	for (AOptionSetBase* optionSet : m_listOptions)
 	{
 		delete optionSet;
 	}
 }
 
-bool AOptions::Parse(wstring commandLine)
+bool AOptions::Parse(std::wstring commandLine)
 {
 	if (!ValidCommandLine(commandLine))
 	{
@@ -28,14 +28,14 @@ bool AOptions::Parse(wstring commandLine)
 	return ParseOptions(commandLine);
 }
 
-bool AOptions::SetSwitch(wstring newSwitch)
+bool AOptions::SetSwitch(std::wstring newSwitch)
 {
 	// EmtpySwitch 허용 - commandLine 전체를 하나의 옵션으로 취급하게된다.
 	m_switch = MakeEscape(newSwitch);
 	return true;
 }
 
-bool AOptions::SetSeparator(wstring newSeparator)
+bool AOptions::SetSeparator(std::wstring newSeparator)
 {
 	if (newSeparator.empty())	return false;
 
@@ -44,7 +44,7 @@ bool AOptions::SetSeparator(wstring newSeparator)
 	return true;
 }
 
-bool AOptions::SetSplitter(wstring newSplitter)
+bool AOptions::SetSplitter(std::wstring newSplitter)
 {
 	if (newSplitter.empty())	return false;
 
@@ -53,19 +53,19 @@ bool AOptions::SetSplitter(wstring newSplitter)
 	return true;
 }
 
-bool AOptions::ValidCommandLine(wstring commandLine)
+bool AOptions::ValidCommandLine(std::wstring commandLine)
 {
-	wstringstream maker;
+	std::wstringstream maker;
 	maker	<< "("
 				<< "(^| +)"					// 각 옵션은 공백으로 구분
 				<< MakeMatchOption()	
 			<< ")*"
 			<< " *";						// l-trim
 
-	tr1::wregex commandLinePattern(maker.str());
+	std::wregex commandLinePattern(maker.str());
 
-	tr1::match_results<wstring::const_iterator> commandResult;
-	if (!tr1::regex_match(commandLine, commandResult, commandLinePattern))
+	std::match_results<std::wstring::const_iterator> commandResult;
+	if (!std::regex_match(commandLine, commandResult, commandLinePattern))
 	{
 		return false;
 	}
@@ -73,25 +73,25 @@ bool AOptions::ValidCommandLine(wstring commandLine)
 	return true;
 }
 
-bool AOptions::ParseOptions(wstring commandLine)
+bool AOptions::ParseOptions(std::wstring commandLine)
 {
-	tr1::wregex optionPattern(MakeMatchOption());
+	std::wregex optionPattern(MakeMatchOption());
 
-	tr1::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
-	for(tr1::wsregex_token_iterator it = begin; it != end; it++)
+	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
+	for(std::wsregex_token_iterator it = begin; it != end; it++)
 	{
-		wstring token = *it;
+		std::wstring token = *it;
 
-		tr1::match_results<wstring::const_iterator> optionResult;
-		if (!tr1::regex_match(token, optionResult, optionPattern))
+		std::match_results<std::wstring::const_iterator> optionResult;
+		if (!std::regex_match(token, optionResult, optionPattern))
 		{
 			return false;
 		}
 		
-		wstring option = optionResult[1].str();
-		wstring arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
+		std::wstring option = optionResult[1].str();
+		std::wstring arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
 
-		for each(AOptionSetBase* optionSet in m_listOptions)
+		for (AOptionSetBase* optionSet : m_listOptions)
 		{
 			if (!optionSet->Match(option))	continue;				
 			if (!optionSet->SetArgument(arguments, m_splitter))	return false;				
@@ -101,17 +101,17 @@ bool AOptions::ParseOptions(wstring commandLine)
 	return true;
 }
 
-wstring AOptions::MakeEscape(wstring text)
+std::wstring AOptions::MakeEscape(std::wstring text)
 {
-	wstring escapeText = text;
+	std::wstring escapeText = text;
 
-	wstring::size_type pos = 0;
+	std::wstring::size_type pos = 0;
 	for(;;)
 	{			
 		// default regex ordinary character (ECMAScript)
 		pos = escapeText.find_first_of(L"^$\\.*+?()[]{}|", pos);	
 
-		if (pos == wstring::npos)
+		if (pos == std::wstring::npos)
 		{
 			break;
 		}
@@ -123,7 +123,7 @@ wstring AOptions::MakeEscape(wstring text)
 	return escapeText;
 }
 
-wstring AOptions::MakeNotMatch(wstring text)
+std::wstring AOptions::MakeNotMatch(std::wstring text)
 {	
 	if (text.empty())
 	{
@@ -134,9 +134,9 @@ wstring AOptions::MakeNotMatch(wstring text)
 	return L"(?!" + text + L")";
 }
 
-wstring AOptions::MakeMatchOption(void)
+std::wstring AOptions::MakeMatchOption(void)
 {
-	wstringstream maker;
+	std::wstringstream maker;
 	maker	<< m_switch									// 옵션 스위치
 			<< "("
 				<< "(?:"
@@ -159,9 +159,9 @@ wstring AOptions::MakeMatchOption(void)
 	return maker.str();
 }
 
-wstring AOptions::MakeMatchValue(wstring notMatch)
+std::wstring AOptions::MakeMatchValue(std::wstring notMatch)
 {
-	wstringstream maker;			
+	std::wstringstream maker;			
 	maker	<< "("
 				<< "(?:"							// 첫 옵션값
 					<< MakeNotMatch(notMatch)

@@ -126,7 +126,10 @@
     <ClCompile Include="src\AOptions.cpp" />
     <ClCompile Include="src\AOptionSet.cpp" />
     <ClCompile Include="src\AOptionSetBase.cpp" />
-    <ClCompile Include="test\TestOptions.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="test\TestOptions.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AOptions.h" />

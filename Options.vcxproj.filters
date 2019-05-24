@@ -13,6 +13,9 @@
     <ClCompile Include="test\TestOptions.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AOptions.h">

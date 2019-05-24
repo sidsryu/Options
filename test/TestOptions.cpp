@@ -1,5 +1,4 @@
-#include "stdafx.h"
-#include "AOptions.h"
+#include "../src/AOptions.h"
 #include <regex>
 
 SUITE(Options)
@@ -12,7 +11,7 @@ SUITE(Options)
 	TEST_FIXTURE(TestOptions, Options)
 	{				
 		bool help;
-		bool debug;
+		bool debug;S
 
 		m_options.Add(L"help", L"", help);
 		m_options.Add(L"debug", L"", debug);
@@ -25,7 +24,7 @@ SUITE(Options)
 
 	TEST_FIXTURE(TestOptions, ArgumentOptions)
 	{
-		wstring filename;
+		std::wstring filename;
 		int		count;
 
 		m_options.Add(L"file", L"", filename);
@@ -39,8 +38,8 @@ SUITE(Options)
 
 	TEST_FIXTURE(TestOptions, Arguments)
 	{
-		wstring filename;
-		vector<wstring> fileList;
+		std::wstring filename;
+		std::vector<std::wstring> fileList;
 
 		m_options.Add(L"file", L"", filename);
 		m_options.Add(L"file", L"", fileList);
@@ -81,7 +80,7 @@ SUITE(Options)
 
 	TEST_FIXTURE(TestOptions, CustomSeparator)
 	{
-		wstring filename;
+		std::wstring filename;
 
 		m_options.Add(L"file", L"", filename);
 		m_options.SetSeparator(L"=");
@@ -93,8 +92,8 @@ SUITE(Options)
 
 	TEST_FIXTURE(TestOptions, CustomSplitter)
 	{
-		wstring filename;
-		vector<wstring> fileList;
+		std::wstring filename;
+		std::vector<std::wstring> fileList;
 
 		m_options.Add(L"file", L"", fileList);
 		m_options.Add(L"file", L"", filename);		
@@ -112,8 +111,8 @@ SUITE(Options)
 
 	TEST_FIXTURE(TestOptions, LongSwitchWithEtc)
 	{
-		wstring filename;
-		vector<wstring> fileList;
+		std::wstring filename;
+		std::vector<std::wstring> fileList;
 
 		m_options.Add(L"file", L"", fileList);
 		m_options.Add(L"file", L"", filename);		
@@ -133,8 +132,8 @@ SUITE(Options)
 
 	TEST_FIXTURE(TestOptions, NonSwitchOption)
 	{
-		vector<wstring> standaloneList;
-		vector<wstring> launchList;
+		std::vector<std::wstring> standaloneList;
+		std::vector<std::wstring> launchList;
 		
 		m_options.Add(L"standalone", L"", standaloneList);
 		m_options.Add(L"launch", L"", launchList);
@@ -155,8 +154,8 @@ SUITE(Options)
 
 	TEST_FIXTURE(TestOptions, DoubleQuotesArgument)
 	{
-		wstring filename;
-		vector<wstring> fileList;
+		std::wstring filename;
+		std::vector<std::wstring> fileList;
 
 		m_options.Add(L"file", L"", fileList);
 		m_options.Add(L"file", L"", filename);
