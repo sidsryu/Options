@@ -1,10 +1,10 @@
 #include "../extern/catch.hpp"
-#include "../src/AOptions.h"
+#include "../src/options.h"
 #include <regex>
 
 TEST_CASE("Parse command line for easy case.", "[basic]")
 {
-	AOptions options;
+	Options options;
 
 	SECTION("Check exist keys")
 	{

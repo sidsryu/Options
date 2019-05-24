@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AOptionSet.h"
+#include "option-set.h"
 #include <string>
 #include <list>
 
@@ -16,7 +16,7 @@
 		std::wstring         foldername;
 
 
-		AOptions options;		
+		Options options;		
 		
 		options.Add(L"log",  L"로그 출력여부",     isLog);
 		options.Add(L"file", L"복사대상 파일목록", fileList);
@@ -30,18 +30,18 @@
 		if (!foldername.empty())	{ 폴더 처리 }
 */
 
-class AOptionSetBase;
+class OptionSetBase;
 
-class AOptions
+class Options
 {
 public:
-	AOptions();
-	virtual ~AOptions();
+	Options();
+	virtual ~Options();
 
 	template<typename T>
 	void Add(std::wstring option, std::wstring description, T& outValue)
 	{
-		m_listOptions.push_back(new AOptionSet<T>(option, description, outValue));
+		m_listOptions.push_back(new OptionSet<T>(option, description, outValue));
 	}
 
 	bool Parse(std::wstring commandLine);
@@ -60,7 +60,7 @@ private:
 	std::wstring MakeMatchValue(std::wstring notMatch);
 
 private:
-	std::list<AOptionSetBase*> m_listOptions;
+	std::list<OptionSetBase*> m_listOptions;
 	std::wstring m_switch;
 	std::wstring m_keyValueSeparator;
 	std::wstring m_serialSeparator;

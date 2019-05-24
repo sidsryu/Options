@@ -1,7 +1,7 @@
-#include "AOptions.h"
+#include "Options.h"
 #include <sstream>
 
-AOptions::AOptions()
+Options::Options()
 : m_switch(L"-")
 , m_keyValueSeparator(L" ")
 , m_serialSeparator(L" ")
@@ -10,15 +10,15 @@ AOptions::AOptions()
 	// do nothing
 }
 
-AOptions::~AOptions()
+Options::~Options()
 {
-	for (AOptionSetBase* optionSet : m_listOptions)
+	for (OptionSetBase* optionSet : m_listOptions)
 	{
 		delete optionSet;
 	}
 }
 
-bool AOptions::Parse(std::wstring commandLine)
+bool Options::Parse(std::wstring commandLine)
 {
 	if (!ValidCommandLine(commandLine))
 	{
@@ -28,14 +28,14 @@ bool AOptions::Parse(std::wstring commandLine)
 	return ParseOptions(commandLine);
 }
 
-bool AOptions::SetSwitch(std::wstring newSwitch)
+bool Options::SetSwitch(std::wstring newSwitch)
 {
 	// EmtpySwitch 허용 - commandLine 전체를 하나의 옵션으로 취급하게된다.
 	m_switch = MakeEscape(newSwitch);
 	return true;
 }
 
-bool AOptions::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
+bool Options::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
 {
 	if (newKeyValueSeparator.empty())	return false;
 
@@ -44,7 +44,7 @@ bool AOptions::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
 	return true;
 }
 
-bool AOptions::SetSerialSeparator(std::wstring newSerialSeparator)
+bool Options::SetSerialSeparator(std::wstring newSerialSeparator)
 {
 	if (newSerialSeparator.empty())	return false;
 
@@ -53,7 +53,7 @@ bool AOptions::SetSerialSeparator(std::wstring newSerialSeparator)
 	return true;
 }
 
-bool AOptions::ValidCommandLine(std::wstring commandLine)
+bool Options::ValidCommandLine(std::wstring commandLine)
 {
 	std::wstringstream maker;
 	maker	<< "("
@@ -73,7 +73,7 @@ bool AOptions::ValidCommandLine(std::wstring commandLine)
 	return true;
 }
 
-bool AOptions::ParseOptions(std::wstring commandLine)
+bool Options::ParseOptions(std::wstring commandLine)
 {
 	std::wregex optionPattern(MakeMatchOption());
 
@@ -91,7 +91,7 @@ bool AOptions::ParseOptions(std::wstring commandLine)
 		std::wstring option = optionResult[1].str();
 		std::wstring arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
 
-		for (AOptionSetBase* optionSet : m_listOptions)
+		for (OptionSetBase* optionSet : m_listOptions)
 		{
 			if (!optionSet->Match(option))	continue;				
 			if (!optionSet->SetArgument(arguments, m_serialSeparator))	return false;				
@@ -101,7 +101,7 @@ bool AOptions::ParseOptions(std::wstring commandLine)
 	return true;
 }
 
-std::wstring AOptions::MakeEscape(std::wstring text)
+std::wstring Options::MakeEscape(std::wstring text)
 {
 	std::wstring escapeText = text;
 
@@ -123,7 +123,7 @@ std::wstring AOptions::MakeEscape(std::wstring text)
 	return escapeText;
 }
 
-std::wstring AOptions::MakeNotMatch(std::wstring text)
+std::wstring Options::MakeNotMatch(std::wstring text)
 {	
 	if (text.empty())
 	{
@@ -134,7 +134,7 @@ std::wstring AOptions::MakeNotMatch(std::wstring text)
 	return L"(?!" + text + L")";
 }
 
-std::wstring AOptions::MakeMatchOption(void)
+std::wstring Options::MakeMatchOption(void)
 {
 	std::wstringstream maker;
 	maker	<< m_switch									// 옵션 스위치
@@ -159,7 +159,7 @@ std::wstring AOptions::MakeMatchOption(void)
 	return maker.str();
 }
 
-std::wstring AOptions::MakeMatchValue(std::wstring notMatch)
+std::wstring Options::MakeMatchValue(std::wstring notMatch)
 {
 	std::wstringstream maker;			
 	maker	<< "("

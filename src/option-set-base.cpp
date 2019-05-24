@@ -1,24 +1,24 @@
-#include "AOptionSet.h"
+#include "option-set.h"
 #include <sstream>
 
-AOptionSetBase::AOptionSetBase(std::wstring option, std::wstring description)
+OptionSetBase::OptionSetBase(std::wstring option, std::wstring description)
 : m_option(option)
 , m_description(description)
 {
 	// do nothing
 }
 
-AOptionSetBase::~AOptionSetBase()
+OptionSetBase::~OptionSetBase()
 {
 	// do nothing
 }
 
-bool AOptionSetBase::Match(std::wstring option)			
+bool OptionSetBase::Match(std::wstring option)			
 { 
 	return m_option == option;
 }
 
-bool AOptionSetBase::Split(std::wstring arguments, std::wstring serialSeparator)
+bool OptionSetBase::Split(std::wstring arguments, std::wstring serialSeparator)
 {
 	std::wstringstream maker;
 	maker	<< " ?"									// l-trim

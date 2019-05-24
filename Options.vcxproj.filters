@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\AOptions.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AOptionSet.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AOptionSetBase.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
     <ClCompile Include="test\test-main.cpp">
       <Filter>test</Filter>
     </ClCompile>
@@ -19,30 +10,39 @@
     <ClCompile Include="test\basic-test.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="src\options.cpp">
+      <Filter>options</Filter>
+    </ClCompile>
+    <ClCompile Include="src\option-set.cpp">
+      <Filter>options</Filter>
+    </ClCompile>
+    <ClCompile Include="src\option-set-base.cpp">
+      <Filter>options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\AOptions.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AOptionSet.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AOptionSetBase.h">
-      <Filter>main</Filter>
-    </ClInclude>
     <ClInclude Include="extern\catch.hpp">
       <Filter>extern</Filter>
+    </ClInclude>
+    <ClInclude Include="src\options.h">
+      <Filter>options</Filter>
+    </ClInclude>
+    <ClInclude Include="src\option-set.h">
+      <Filter>options</Filter>
+    </ClInclude>
+    <ClInclude Include="src\option-set-base.h">
+      <Filter>options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="test">
       <UniqueIdentifier>{655fa40a-c80d-4d98-b971-4af1a03c4d34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="main">
-      <UniqueIdentifier>{77eaf08b-60c1-4a30-a6bb-f04297207cfe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="extern">
       <UniqueIdentifier>{0083d38e-2f0e-4886-9e27-97ef65bd1185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="options">
+      <UniqueIdentifier>{77eaf08b-60c1-4a30-a6bb-f04297207cfe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

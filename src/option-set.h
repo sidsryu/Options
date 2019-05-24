@@ -1,15 +1,15 @@
 #pragma once
 
-#include "AOptionSetBase.h"
+#include "option-set-base.h"
 #include <regex>
 
 
 template<typename T>
-class AOptionSet: public AOptionSetBase
+class OptionSet: public OptionSetBase
 {
 public:
-	AOptionSet(std::wstring option, std::wstring description, T& outValue)
-		: AOptionSetBase(option, description)
+	OptionSet(std::wstring option, std::wstring description, T& outValue)
+		: OptionSetBase(option, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -23,11 +23,11 @@ private:
 
 // 불리언 옵션 - 옵션값을 읽지 않는다. 옵션 스위치만 있어도 true 설정
 template<>
-class AOptionSet<bool>: public AOptionSetBase
+class OptionSet<bool>: public OptionSetBase
 {
 public:
-	AOptionSet(std::wstring option, std::wstring description, bool& outValue)
-		: AOptionSetBase(option, description)
+	OptionSet(std::wstring option, std::wstring description, bool& outValue)
+		: OptionSetBase(option, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = false;
@@ -55,11 +55,11 @@ private:
 
 // 문자열 옵션 - 옵션값을 통채로 읽는다.
 template<>
-class AOptionSet<std::wstring>: public AOptionSetBase
+class OptionSet<std::wstring>: public OptionSetBase
 {
 public:
-	AOptionSet(std::wstring option, std::wstring description, std::wstring& outValue)
-		: AOptionSetBase(option, description)
+	OptionSet(std::wstring option, std::wstring description, std::wstring& outValue)
+		: OptionSetBase(option, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -77,11 +77,11 @@ private:
 
 // 정수 옵션 - 숫자로 읽는다. 숫자가 아닌 값 읽으면 0.
 template<>
-class AOptionSet<int>: public AOptionSetBase
+class OptionSet<int>: public OptionSetBase
 {
 public:
-	AOptionSet(std::wstring option, std::wstring description, int& outValue)
-		: AOptionSetBase(option, description)
+	OptionSet(std::wstring option, std::wstring description, int& outValue)
+		: OptionSetBase(option, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = 0;
@@ -100,11 +100,11 @@ private:
 
 // 문자열 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class AOptionSet<std::vector<std::wstring> >: public AOptionSetBase
+class OptionSet<std::vector<std::wstring> >: public OptionSetBase
 {
 public:
-	AOptionSet(std::wstring option, std::wstring description, std::vector<std::wstring>& outValue)
-		: AOptionSetBase(option, description)
+	OptionSet(std::wstring option, std::wstring description, std::vector<std::wstring>& outValue)
+		: OptionSetBase(option, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -126,11 +126,11 @@ private:
 
 // 숫자 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class AOptionSet<std::vector<int> >: public AOptionSetBase
+class OptionSet<std::vector<int> >: public OptionSetBase
 {
 public:
-	AOptionSet(std::wstring option, std::wstring description, std::vector<int>& outValue)
-		: AOptionSetBase(option, description)
+	OptionSet(std::wstring option, std::wstring description, std::vector<int>& outValue)
+		: OptionSetBase(option, description)
 		, m_outValue(outValue)
 	{
 	}

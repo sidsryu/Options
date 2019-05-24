@@ -2,11 +2,11 @@
 
 #include <string>
 
-class AOptionSetBase
+class OptionSetBase
 {
 public:
-	AOptionSetBase(std::wstring option, std::wstring description);
-	~AOptionSetBase();
+	OptionSetBase(std::wstring option, std::wstring description);
+	~OptionSetBase();
 
 	bool Match(std::wstring option);
 

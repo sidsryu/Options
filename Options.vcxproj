@@ -123,18 +123,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\AOptions.cpp" />
-    <ClCompile Include="src\AOptionSet.cpp" />
-    <ClCompile Include="src\AOptionSetBase.cpp" />
+    <ClCompile Include="src\option-set-base.cpp" />
+    <ClCompile Include="src\option-set.cpp" />
+    <ClCompile Include="src\options.cpp" />
     <ClCompile Include="test\advanced-test.cpp" />
     <ClCompile Include="test\basic-test.cpp" />
     <ClCompile Include="test\test-main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extern\catch.hpp" />
-    <ClInclude Include="src\AOptions.h" />
-    <ClInclude Include="src\AOptionSet.h" />
-    <ClInclude Include="src\AOptionSetBase.h" />
+    <ClInclude Include="src\option-set-base.h" />
+    <ClInclude Include="src\option-set.h" />
+    <ClInclude Include="src\options.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

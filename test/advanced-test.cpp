@@ -1,9 +1,9 @@
 #include "../extern/catch.hpp"
-#include "../src/AOptions.h"
+#include "../src/Options.h"
 
 TEST_CASE("Parse command line for advanced case", "[advanced][todo][!hide]")
 {
-	AOptions options;
+	Options options;
 
 	SECTION("Print out auto generated help description")
 	{}
