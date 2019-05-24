@@ -1,5 +1,4 @@
-#define CATCH_CONFIG_MAIN 
-#include "catch.hpp"
+#include "../extern/catch.hpp"
 #include "../src/AOptions.h"
 #include <regex>
 

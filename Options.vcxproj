@@ -126,16 +126,16 @@
     <ClCompile Include="src\AOptions.cpp" />
     <ClCompile Include="src\AOptionSet.cpp" />
     <ClCompile Include="src\AOptionSetBase.cpp" />
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="test\test-main.cpp" />
     <ClCompile Include="test\TestOptions.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="extern\catch.hpp" />
     <ClInclude Include="src\AOptions.h" />
     <ClInclude Include="src\AOptionSet.h" />
     <ClInclude Include="src\AOptionSetBase.h" />
-    <ClInclude Include="test\catch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

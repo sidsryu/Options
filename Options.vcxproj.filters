@@ -13,8 +13,8 @@
     <ClCompile Include="test\TestOptions.cpp">
       <Filter>test</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>main</Filter>
+    <ClCompile Include="test\test-main.cpp">
+      <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -27,8 +27,8 @@
     <ClInclude Include="src\AOptionSetBase.h">
       <Filter>main</Filter>
     </ClInclude>
-    <ClInclude Include="test\catch.hpp">
-      <Filter>test</Filter>
+    <ClInclude Include="extern\catch.hpp">
+      <Filter>extern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +37,9 @@
     </Filter>
     <Filter Include="main">
       <UniqueIdentifier>{77eaf08b-60c1-4a30-a6bb-f04297207cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extern">
+      <UniqueIdentifier>{0083d38e-2f0e-4886-9e27-97ef65bd1185}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
