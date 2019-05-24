@@ -10,10 +10,13 @@
     <ClCompile Include="src\AOptionSetBase.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="test\TestOptions.cpp">
+    <ClCompile Include="test\test-main.cpp">
       <Filter>test</Filter>
     </ClCompile>
-    <ClCompile Include="test\test-main.cpp">
+    <ClCompile Include="test\advanced-test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\basic-test.cpp">
       <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
