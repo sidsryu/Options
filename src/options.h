@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-class OptionSetBase;
+class OptionContextBase;
 class OptionSyntax;
 
 class Options
@@ -32,6 +32,6 @@ private:
 	bool ParseOptions(const std::wstring& commandLine) const;
 
 private:	
-	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
+	std::vector<std::unique_ptr<OptionContextBase>> m_listofOption;
 	std::unique_ptr<OptionSyntax> m_syntax;
 };

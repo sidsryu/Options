@@ -123,7 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\option-set-base.cpp" />
+    <ClCompile Include="src\option-context-base.cpp" />
     <ClCompile Include="src\option-set.cpp" />
     <ClCompile Include="src\option-syntax-symbols.cpp" />
     <ClCompile Include="src\option-syntax.cpp" />
@@ -134,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extern\catch.hpp" />
-    <ClInclude Include="src\option-set-base.h" />
+    <ClInclude Include="src\option-context-base.h" />
     <ClInclude Include="src\option-set.h" />
     <ClInclude Include="src\option-syntax-symbols.h" />
     <ClInclude Include="src\option-syntax.h" />

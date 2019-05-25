@@ -1,24 +1,25 @@
-#include "option-set.h"
+#include "option-context-base.h"
 #include <sstream>
+#include <regex>
 
-OptionSetBase::OptionSetBase(const std::wstring& key, const std::wstring& description)
+OptionContextBase::OptionContextBase(const std::wstring& key, const std::wstring& description)
 	: m_key(key)
 	, m_description(description)
 {
 	// do nothing
 }
 
-OptionSetBase::~OptionSetBase()
+OptionContextBase::~OptionContextBase()
 {
 	// do nothing
 }
 
-bool OptionSetBase::Match(const std::wstring& key)
+bool OptionContextBase::Match(const std::wstring& key)
 { 
 	return m_key == key;
 }
 
-bool OptionSetBase::Split(const std::wstring& arguments, const std::wstring& serialSeparator)
+bool OptionContextBase::Split(const std::wstring& arguments, const std::wstring& serialSeparator)
 {
 	std::wstringstream maker;
 	maker	<< " ?"									// l-trim

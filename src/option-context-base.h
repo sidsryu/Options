@@ -2,11 +2,11 @@
 
 #include <string>
 
-class OptionSetBase
+class OptionContextBase
 {
 public:
-	OptionSetBase(const std::wstring& key, const std::wstring& description);
-	virtual ~OptionSetBase();
+	OptionContextBase(const std::wstring& key, const std::wstring& description);
+	virtual ~OptionContextBase();
 
 	bool Match(const std::wstring& option);
 

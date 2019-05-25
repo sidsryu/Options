@@ -1,15 +1,15 @@
 #pragma once
 
-#include "option-set-base.h"
+#include "option-context-base.h"
 #include <regex>
 
 
 template<typename T>
-class OptionSet: public OptionSetBase
+class OptionSet: public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, T& outValue)
-		: OptionSetBase(key, description)
+		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -23,11 +23,11 @@ private:
 
 // 불리언 옵션 - 옵션값을 읽지 않는다. 옵션 스위치만 있어도 true 설정
 template<>
-class OptionSet<bool>: public OptionSetBase
+class OptionSet<bool>: public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, bool& outValue)
-		: OptionSetBase(key, description)
+		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = false;
@@ -55,11 +55,11 @@ private:
 
 // 문자열 옵션 - 옵션값을 통채로 읽는다.
 template<>
-class OptionSet<std::wstring>: public OptionSetBase
+class OptionSet<std::wstring>: public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::wstring& outValue)
-		: OptionSetBase(key, description)
+		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -77,11 +77,11 @@ private:
 
 // 정수 옵션 - 숫자로 읽는다. 숫자가 아닌 값 읽으면 0.
 template<>
-class OptionSet<int>: public OptionSetBase
+class OptionSet<int>: public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, int& outValue)
-		: OptionSetBase(key, description)
+		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = 0;
@@ -100,11 +100,11 @@ private:
 
 // 문자열 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<std::wstring>>: public OptionSetBase
+class OptionSet<std::vector<std::wstring>>: public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<std::wstring>& outValue)
-		: OptionSetBase(key, description)
+		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -126,11 +126,11 @@ private:
 
 // 숫자 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<int> >: public OptionSetBase
+class OptionSet<std::vector<int> >: public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<int>& outValue)
-		: OptionSetBase(key, description)
+		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
