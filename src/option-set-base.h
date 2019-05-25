@@ -5,17 +5,17 @@
 class OptionSetBase
 {
 public:
-	OptionSetBase(std::wstring key, std::wstring description);
+	OptionSetBase(const std::wstring& key, const std::wstring& description);
 	virtual ~OptionSetBase();
 
-	bool Match(std::wstring option);
+	bool Match(const std::wstring& option);
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator) = 0;
+	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator) = 0;
 	
 protected:
-	bool Split(std::wstring arguments, std::wstring serialSeparator);
+	bool Split(const std::wstring& arguments, const std::wstring& serialSeparator);
 
-	virtual bool SetSplitArgument(std::wstring argument)	{ return false;	}
+	virtual bool SetSplitArgument(const std::wstring& argument)	{ return false;	}
 
 private:
 	std::wstring m_key;

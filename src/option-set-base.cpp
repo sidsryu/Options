@@ -1,7 +1,7 @@
 #include "option-set.h"
 #include <sstream>
 
-OptionSetBase::OptionSetBase(std::wstring key, std::wstring description)
+OptionSetBase::OptionSetBase(const std::wstring& key, const std::wstring& description)
 	: m_key(key)
 	, m_description(description)
 {
@@ -13,12 +13,12 @@ OptionSetBase::~OptionSetBase()
 	// do nothing
 }
 
-bool OptionSetBase::Match(std::wstring key)
+bool OptionSetBase::Match(const std::wstring& key)
 { 
 	return m_key == key;
 }
 
-bool OptionSetBase::Split(std::wstring arguments, std::wstring serialSeparator)
+bool OptionSetBase::Split(const std::wstring& arguments, const std::wstring& serialSeparator)
 {
 	std::wstringstream maker;
 	maker	<< " ?"									// l-trim

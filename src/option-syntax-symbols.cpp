@@ -20,14 +20,14 @@ OptionSyntaxSymbols::OptionSyntaxSymbols()
 OptionSyntaxSymbols::~OptionSyntaxSymbols()
 {}
 
-bool OptionSyntaxSymbols::SetSwitch(std::wstring newSwitch)
+bool OptionSyntaxSymbols::SetSwitch(const std::wstring& newSwitch)
 {
 	// Emtpy switch 허용 - commandLine 전체를 하나의 옵션으로 취급하게된다.
 	m_switch = EscapeRegex(newSwitch);
 	return true;
 }
 
-bool OptionSyntaxSymbols::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
+bool OptionSyntaxSymbols::SetKeyValueSeparator(const std::wstring& newKeyValueSeparator)
 {
 	if (newKeyValueSeparator.empty()) return false;
 
@@ -35,7 +35,7 @@ bool OptionSyntaxSymbols::SetKeyValueSeparator(std::wstring newKeyValueSeparator
 	return true;
 }
 
-bool OptionSyntaxSymbols::SetSerialSeparator(std::wstring newSerialSeparator)
+bool OptionSyntaxSymbols::SetSerialSeparator(const std::wstring& newSerialSeparator)
 {
 	if (newSerialSeparator.empty()) return false;
 

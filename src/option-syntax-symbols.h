@@ -8,9 +8,9 @@ public:
 	OptionSyntaxSymbols();
 	virtual ~OptionSyntaxSymbols();
 
-	bool SetSwitch(std::wstring newSwitch);
-	bool SetKeyValueSeparator(std::wstring newKeyValueSeparator);
-	bool SetSerialSeparator(std::wstring newSerialSeparator);
+	bool SetSwitch(const std::wstring& newSwitch);
+	bool SetKeyValueSeparator(const std::wstring& newKeyValueSeparator);
+	bool SetSerialSeparator(const std::wstring& newSerialSeparator);
 
 	std::wstring GetSwitch() const;
 	std::wstring GetKeyValueSeparator() const;

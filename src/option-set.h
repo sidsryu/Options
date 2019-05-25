@@ -8,7 +8,7 @@ template<typename T>
 class OptionSet: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring key, std::wstring description, T& outValue)
+	OptionSet(const std::wstring& key, const std::wstring& description, T& outValue)
 		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
@@ -26,14 +26,14 @@ template<>
 class OptionSet<bool>: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring key, std::wstring description, bool& outValue)
+	OptionSet(const std::wstring& key, const std::wstring& description, bool& outValue)
 		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = false;
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
+	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
 	{
 		// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
 		std::wregex pattern(L" *(true|t|yes|y|enable|e|allow|a)? *", std::regex_constants::icase);
@@ -58,13 +58,13 @@ template<>
 class OptionSet<std::wstring>: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring key, std::wstring description, std::wstring& outValue)
+	OptionSet(const std::wstring& key, const std::wstring& description, std::wstring& outValue)
 		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
+	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
 	{
 		m_outValue = arguments;
 		return true;	
@@ -80,14 +80,14 @@ template<>
 class OptionSet<int>: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring key, std::wstring description, int& outValue)
+	OptionSet(const std::wstring& key, const std::wstring& description, int& outValue)
 		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = 0;
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
+	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
 	{
 		m_outValue = _wtoi(arguments.c_str());
 		return true;
@@ -100,21 +100,21 @@ private:
 
 // 문자열 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<std::wstring> >: public OptionSetBase
+class OptionSet<std::vector<std::wstring>>: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring key, std::wstring description, std::vector<std::wstring>& outValue)
+	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<std::wstring>& outValue)
 		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
+	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
 	{
 		return Split(arguments, serialSeparator);
 	}
 
-	virtual bool SetSplitArgument(std::wstring argument)
+	virtual bool SetSplitArgument(const std::wstring& argument)
 	{
 		m_outValue.push_back(argument);
 		return true;
@@ -129,18 +129,18 @@ template<>
 class OptionSet<std::vector<int> >: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring key, std::wstring description, std::vector<int>& outValue)
+	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<int>& outValue)
 		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
 
-	virtual bool SetArgument(std::wstring arguments, std::wstring serialSeparator)
+	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
 	{
 		return Split(arguments, serialSeparator);
 	}
 
-	virtual bool SetSplitArgument(std::wstring argument)
+	virtual bool SetSplitArgument(const std::wstring& argument)
 	{
 		m_outValue.push_back(_wtoi(argument.c_str()));
 		return true;

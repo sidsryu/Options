@@ -9,7 +9,7 @@ Options::Options()
 Options::~Options()
 {}
 
-bool Options::Parse(std::wstring commandLine)
+bool Options::Parse(const std::wstring& commandLine)
 {
 	if (!ValidCommandLine(commandLine))
 	{
@@ -19,13 +19,13 @@ bool Options::Parse(std::wstring commandLine)
 	return ParseOptions(commandLine);
 }
 
-bool Options::ValidCommandLine(std::wstring commandLine)
+bool Options::ValidCommandLine(const std::wstring& commandLine)
 {
 	auto verification = VerificationRegex();
 	return VerifyRegex(commandLine, verification);
 }
 
-bool Options::VerifyRegex(std::wstring str, std::wstring pattern)
+bool Options::VerifyRegex(const std::wstring& str, const std::wstring& pattern)
 {
 	std::wregex p(pattern);
 
@@ -33,14 +33,14 @@ bool Options::VerifyRegex(std::wstring str, std::wstring pattern)
 	return std::regex_match(str, m, p);
 }
 
-bool Options::ParseOptions(std::wstring commandLine)
+bool Options::ParseOptions(const std::wstring& commandLine)
 {
 	std::wregex optionPattern(OptionRegex());
 
 	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
 	for (std::wsregex_token_iterator it = begin; it != end; it++)
 	{
-		std::wstring token = *it;
+		const std::wstring& token = *it;
 
 		std::match_results<std::wstring::const_iterator> optionResult;
 		if (!std::regex_match(token, optionResult, optionPattern))
@@ -48,8 +48,8 @@ bool Options::ParseOptions(std::wstring commandLine)
 			return false;
 		}
 
-		std::wstring option = optionResult[1].str();
-		std::wstring arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
+		const std::wstring& option = optionResult[1].str();
+		const std::wstring& arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
 
 		for (auto& optionSet : m_listofOption)
 		{
@@ -61,22 +61,22 @@ bool Options::ParseOptions(std::wstring commandLine)
 	return true;
 }
 
-bool Options::SetSwitch(std::wstring newSwitch)
+bool Options::SetSwitch(const std::wstring& newSwitch)
 {
 	return m_symbols->SetSwitch(newSwitch);
 }
 
-bool Options::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
+bool Options::SetKeyValueSeparator(const std::wstring& newKeyValueSeparator)
 {
 	return m_symbols->SetKeyValueSeparator(newKeyValueSeparator);
 }
 
-bool Options::SetSerialSeparator(std::wstring newSerialSeparator)
+bool Options::SetSerialSeparator(const std::wstring& newSerialSeparator)
 {
 	return m_symbols->SetSerialSeparator(newSerialSeparator);
 }
 
-std::wstring Options::NotContainRegex(std::wstring text)
+std::wstring Options::NotContainRegex(const std::wstring& text)
 {
 	if (text.empty())
 	{
@@ -103,7 +103,7 @@ std::wstring Options::OptionRegex(void)
 	return ss.str();
 }
 
-std::wstring Options::ValueRegex(std::wstring notMatch)
+std::wstring Options::ValueRegex(const std::wstring& notMatch)
 {
 	// Goal: "((first_value)(rest_value)*)
 	// Goal: "((?:no_separator.)+)(?:separator(?:no_separator.)+)*)"
