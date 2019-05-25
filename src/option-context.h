@@ -6,10 +6,10 @@
 #include <regex>
 
 template<typename T>
-class OptionSet : public OptionContextBase
+class OptionContext : public OptionContextBase
 {
 public:
-	OptionSet(const std::wstring& key, const std::wstring& description, T& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description, T& outValue)
 		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
@@ -25,10 +25,10 @@ private:
 
 // 불리언 옵션 - 옵션값을 읽지 않는다. 옵션 스위치만 있어도 true 설정
 template<>
-class OptionSet<bool> : public OptionContextBase
+class OptionContext<bool> : public OptionContextBase
 {
 public:
-	OptionSet(const std::wstring& key, const std::wstring& description, bool& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description, bool& outValue)
 		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
@@ -57,10 +57,10 @@ private:
 
 // 문자열 옵션 - 옵션값을 통채로 읽는다.
 template<>
-class OptionSet<std::wstring> : public OptionContextBase
+class OptionContext<std::wstring> : public OptionContextBase
 {
 public:
-	OptionSet(const std::wstring& key, const std::wstring& description, std::wstring& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description, std::wstring& outValue)
 		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
@@ -79,10 +79,10 @@ private:
 
 // 정수 옵션 - 숫자로 읽는다. 숫자가 아닌 값 읽으면 0.
 template<>
-class OptionSet<int> : public OptionContextBase
+class OptionContext<int> : public OptionContextBase
 {
 public:
-	OptionSet(const std::wstring& key, const std::wstring& description, int& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description, int& outValue)
 		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
@@ -102,10 +102,10 @@ private:
 
 // 문자열 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<std::wstring>> : public OptionContextSerial
+class OptionContext<std::vector<std::wstring>> : public OptionContextSerial
 {
 public:
-	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<std::wstring>& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description, std::vector<std::wstring>& outValue)
 		: OptionContextSerial(key, description)
 		, m_outValue(outValue)
 	{
@@ -123,10 +123,10 @@ private:
 
 // 숫자 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<int> > : public OptionContextSerial
+class OptionContext<std::vector<int> > : public OptionContextSerial
 {
 public:
-	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<int>& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description, std::vector<int>& outValue)
 		: OptionContextSerial(key, description)
 		, m_outValue(outValue)
 	{

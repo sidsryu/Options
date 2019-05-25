@@ -17,7 +17,7 @@ public:
 	template<typename T>
 	void Add(const std::wstring& key, const std::wstring& description, T& bindingVariable)
 	{
-		m_listofOption.push_back(std::make_unique<OptionSet<T>>(key, description, bindingVariable));
+		m_listofOption.push_back(std::make_unique<OptionContext<T>>(key, description, bindingVariable));
 	}
 
 	bool Parse(const std::wstring& commandLine) const;
