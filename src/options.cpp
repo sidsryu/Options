@@ -36,22 +36,24 @@ bool Options::SetSerialSeparator(std::wstring newSerialSeparator)
 
 bool Options::ValidCommandLine(std::wstring commandLine)
 {
-	std::wstringstream maker;
-	maker	<< "("
-				<< "(^| +)"					// 각 옵션은 공백으로 구분
-				<< MakeMatchOption()	
-			<< ")*"
-			<< " *";						// l-trim
+	// Goal: "((^| +)option)* *"
 
-	std::wregex commandLinePattern(maker.str());
+	auto begin = L"(";
+	auto end = L")*"; // 0개 이상의 옵션
 
-	std::match_results<std::wstring::const_iterator> commandResult;
-	if (!std::regex_match(commandLine, commandResult, commandLinePattern))
-	{
-		return false;
-	}
+	auto delimiter = L"(^| +)"; // 옵션 구분자. 첫 옵션을 제외하곤 공백문자로 구분된다.
+	auto option = MakeMatchOption();
+	auto rtrim = L" *";
 
-	return true;
+	std::wstringstream ss;
+	ss << begin << delimiter << option << end << rtrim;
+
+
+	// matching
+	std::wregex pattern(ss.str());
+
+	std::match_results<std::wstring::const_iterator> result;
+	return std::regex_match(commandLine, result, pattern);
 }
 
 bool Options::ParseOptions(std::wstring commandLine)
@@ -95,45 +97,84 @@ std::wstring Options::MakeNotMatch(std::wstring text)
 
 std::wstring Options::MakeMatchOption(void)
 {
-	std::wstringstream maker;
-	maker	<< m_symbols->GetSwitch()					// 옵션 스위치
-			<< "("
-				<< "(?:"
-					<< MakeNotMatch(m_symbols->GetSwitch())
-					<< MakeNotMatch(m_symbols->GetKeyValueSeparator())
-				<< ".)+"
-			<< ")"
-			<< "(?:"									// 옵션값 시작
-				<< m_symbols->GetKeyValueSeparator()
-				<< " *"
-				<< "(?:"
-					<< L"\""
-						<< MakeMatchValue(L"\"")	// 따옴표로 시작하면, 스위치 무시
-					<< L"\""
-				<< "|"
-					<< MakeMatchValue(m_symbols->GetSwitch())
-				<< ")"
-			<< ")?";
+	// Goal: "switch(key)(separator(values))?"
+	// like "-key" or "-key=values"
 
-	return maker.str();
+	auto switch_symbol = m_symbols->GetSwitch();
+
+	auto key = MakeMatchKey();
+	auto values = MakeMatchValues();
+
+	std::wstringstream ss;
+	ss << switch_symbol << key << values;
+
+	return ss.str();
 }
 
 std::wstring Options::MakeMatchValue(std::wstring notMatch)
 {
-	std::wstringstream maker;			
-	maker	<< "("
-				<< "(?:"							// 첫 옵션값
-					<< MakeNotMatch(notMatch)
-					<< MakeNotMatch(m_symbols->GetSerialSeparator())					
-				<< ".)+"
-				<< "(?:"							// 나머지 옵션값들
-				<< m_symbols->GetSerialSeparator()
-					<< "(?:"														
-						<< MakeNotMatch(notMatch)
-						<< MakeNotMatch(m_symbols->GetSerialSeparator())						
-					<< ".)+"
-				<< ")*"
-			<< ")";
+	// Goal: "((first_value)(rest_value)*)
+	// Goal: "((?:no_separator.)+)(?:separator(?:no_separator.)+)*)"
+	
+	auto begin = L"(";
+	auto end = L")";
+	
+	auto no_match = MakeNotMatch(notMatch);
+	auto no_separator = MakeNotMatch(m_symbols->GetSerialSeparator());
+	auto first_value = L"(?:" + no_match + no_separator + L".)+";
 
-	return maker.str();
+	auto separator = m_symbols->GetSerialSeparator();
+	auto rest_values = L"(?:" + separator + first_value + L")*";
+
+
+	std::wstringstream ss;
+	ss << begin << first_value << rest_values << end;
+
+	return ss.str();
+}
+
+std::wstring Options::MakeMatchKey()
+{
+	// Goal: "((?:no_switch_no_separator.)+)"
+	// switch와 separator가 포함되지 않은 연속된 문자열
+
+	auto begin = L"(";
+	auto end = L")";
+
+	auto no_switch = MakeNotMatch(m_symbols->GetSwitch());
+	auto no_separator = MakeNotMatch(m_symbols->GetKeyValueSeparator());
+	auto key = L"(?:" + no_switch + no_separator + L".)+";
+
+
+	std::wstringstream ss;
+	ss << begin << key << end;
+
+	return ss.str();
+}
+
+std::wstring Options::MakeMatchValues()
+{
+	// Goal: "(?:separator *(?:quotation_string|serial_values))?"
+	
+	auto begin = L"(?:"; // 캡처 안함
+	auto end = L")?"; // 0 or 1개, key만 있을 수 있음.
+
+	auto separator = m_symbols->GetKeyValueSeparator();
+	auto ltrim = L" *";
+
+	auto quotation_string = MakeMatchString();
+	auto serial_values = MakeMatchValue(m_symbols->GetSwitch());
+
+	auto values = L"(?:" + quotation_string + L"|" + serial_values + L")";
+
+
+	std::wstringstream ss;
+	ss << begin << separator << ltrim << values << end;
+
+	return ss.str();
+}
+
+std::wstring Options::MakeMatchString()
+{
+	return L"\"" + MakeMatchValue(L"\"") + L"\"";
 }

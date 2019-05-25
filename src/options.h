@@ -33,6 +33,9 @@ private:
 	std::wstring MakeNotMatch(std::wstring text);
 	std::wstring MakeMatchOption(void);
 	std::wstring MakeMatchValue(std::wstring notMatch);
+	std::wstring MakeMatchKey();
+	std::wstring MakeMatchValues();
+	std::wstring MakeMatchString();
 
 private:
 	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
