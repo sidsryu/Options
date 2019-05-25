@@ -125,7 +125,7 @@
   <ItemGroup>
     <ClCompile Include="src\option-context-base.cpp" />
     <ClCompile Include="src\option-context-serial.cpp" />
-    <ClCompile Include="src\option-set.cpp" />
+    <ClCompile Include="src\option-context.cpp" />
     <ClCompile Include="src\option-syntax-symbols.cpp" />
     <ClCompile Include="src\option-syntax.cpp" />
     <ClCompile Include="src\options.cpp" />
@@ -137,7 +137,7 @@
     <ClInclude Include="extern\catch.hpp" />
     <ClInclude Include="src\option-context-base.h" />
     <ClInclude Include="src\option-context-serial.h" />
-    <ClInclude Include="src\option-set.h" />
+    <ClInclude Include="src\option-context.h" />
     <ClInclude Include="src\option-syntax-symbols.h" />
     <ClInclude Include="src\option-syntax.h" />
     <ClInclude Include="src\options.h" />
