@@ -19,41 +19,18 @@ bool Options::Parse(std::wstring commandLine)
 	return ParseOptions(commandLine);
 }
 
-bool Options::SetSwitch(std::wstring newSwitch)
-{
-	return m_symbols->SetSwitch(newSwitch);
-}
-
-bool Options::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
-{
-	return m_symbols->SetKeyValueSeparator(newKeyValueSeparator);
-}
-
-bool Options::SetSerialSeparator(std::wstring newSerialSeparator)
-{
-	return m_symbols->SetSerialSeparator(newSerialSeparator);
-}
-
 bool Options::ValidCommandLine(std::wstring commandLine)
 {
-	// Goal: "((^| +)option)* *"
+	auto verification = VerificationRegex();
+	return VerifyRegex(commandLine, verification);
+}
 
-	auto begin = L"(";
-	auto end = L")*"; // 0개 이상의 옵션
+bool Options::VerifyRegex(std::wstring str, std::wstring pattern)
+{
+	std::wregex p(pattern);
 
-	auto delimiter = L"(^| +)"; // 옵션 구분자. 첫 옵션을 제외하곤 공백문자로 구분된다.
-	auto option = OptionRegex();
-	auto rtrim = L" *";
-
-	std::wstringstream ss;
-	ss << begin << delimiter << option << end << rtrim;
-
-
-	// matching
-	std::wregex pattern(ss.str());
-
-	std::match_results<std::wstring::const_iterator> result;
-	return std::regex_match(commandLine, result, pattern);
+	std::match_results<std::wstring::const_iterator> m;
+	return std::regex_match(str, m, p);
 }
 
 bool Options::ParseOptions(std::wstring commandLine)
@@ -82,6 +59,21 @@ bool Options::ParseOptions(std::wstring commandLine)
 	}
 
 	return true;
+}
+
+bool Options::SetSwitch(std::wstring newSwitch)
+{
+	return m_symbols->SetSwitch(newSwitch);
+}
+
+bool Options::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
+{
+	return m_symbols->SetKeyValueSeparator(newKeyValueSeparator);
+}
+
+bool Options::SetSerialSeparator(std::wstring newSerialSeparator)
+{
+	return m_symbols->SetSerialSeparator(newSerialSeparator);
 }
 
 std::wstring Options::NotContainRegex(std::wstring text)
@@ -177,4 +169,21 @@ std::wstring Options::ValuesRegex()
 std::wstring Options::QuotationStringRegex()
 {
 	return L"\"" + ValueRegex(L"\"") + L"\"";
+}
+
+std::wstring Options::VerificationRegex()
+{
+	// Goal: "((^| +)option)* *"
+
+	auto begin = L"(";
+	auto end = L")*"; // 0개 이상의 옵션
+
+	auto delimiter = L"(^| +)"; // 옵션 구분자. 첫 옵션을 제외하곤 공백문자로 구분된다.
+	auto option = OptionRegex();
+	auto rtrim = L" *";
+
+	std::wstringstream ss;
+	ss << begin << delimiter << option << end << rtrim;
+
+	return ss.str();
 }

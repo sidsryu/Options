@@ -28,8 +28,10 @@ public:
 
 private:
 	bool ValidCommandLine(std::wstring commandLine);
+	bool VerifyRegex(std::wstring str, std::wstring pattern);
 	bool ParseOptions(std::wstring commandLine);
 
+	std::wstring VerificationRegex();
 	std::wstring NotContainRegex(std::wstring text);
 	std::wstring OptionRegex(void);
 	std::wstring ValueRegex(std::wstring notMatch);
