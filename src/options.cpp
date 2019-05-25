@@ -1,5 +1,5 @@
 #include "options.h"
-#include "option-syntax.h"
+#include "syntax.h"
 
 namespace options {
 Options::Options()

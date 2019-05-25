@@ -1,5 +1,5 @@
-#include "option-syntax.h"
-#include "option-syntax-symbols.h"
+#include "syntax.h"
+#include "symbols.h"
 
 namespace options {
 Syntax::Syntax()

@@ -1,4 +1,4 @@
-#include "option-syntax-symbols.h"
+#include "symbols.h"
 #include <regex>
 
 namespace options {

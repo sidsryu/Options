@@ -10,22 +10,22 @@
     <ClCompile Include="test\basic-test.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="src\base-context.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\serial-value-context.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\symbols.cpp">
+      <Filter>syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\syntax.cpp">
+      <Filter>syntax</Filter>
+    </ClCompile>
     <ClCompile Include="src\options.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="src\option-syntax.cpp">
-      <Filter>syntax</Filter>
-    </ClCompile>
-    <ClCompile Include="src\option-syntax-symbols.cpp">
-      <Filter>syntax</Filter>
-    </ClCompile>
-    <ClCompile Include="src\option-context-base.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="src\option-context-serial.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="src\option-context.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,22 +33,22 @@
     <ClInclude Include="extern\catch.hpp">
       <Filter>extern</Filter>
     </ClInclude>
+    <ClInclude Include="src\base-context.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\context.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\serial-value-context.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\symbols.h">
+      <Filter>syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\syntax.h">
+      <Filter>syntax</Filter>
+    </ClInclude>
     <ClInclude Include="src\options.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="src\option-syntax-symbols.h">
-      <Filter>syntax</Filter>
-    </ClInclude>
-    <ClInclude Include="src\option-syntax.h">
-      <Filter>syntax</Filter>
-    </ClInclude>
-    <ClInclude Include="src\option-context-base.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="src\option-context-serial.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="src\option-context.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>

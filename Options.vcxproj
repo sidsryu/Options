@@ -123,24 +123,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\option-context-base.cpp" />
-    <ClCompile Include="src\option-context-serial.cpp" />
-    <ClCompile Include="src\option-context.cpp" />
-    <ClCompile Include="src\option-syntax-symbols.cpp" />
-    <ClCompile Include="src\option-syntax.cpp" />
+    <ClCompile Include="src\base-context.cpp" />
+    <ClCompile Include="src\context.cpp" />
     <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\serial-value-context.cpp" />
+    <ClCompile Include="src\symbols.cpp" />
+    <ClCompile Include="src\syntax.cpp" />
     <ClCompile Include="test\advanced-test.cpp" />
     <ClCompile Include="test\basic-test.cpp" />
     <ClCompile Include="test\test-main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extern\catch.hpp" />
-    <ClInclude Include="src\option-context-base.h" />
-    <ClInclude Include="src\option-context-serial.h" />
-    <ClInclude Include="src\option-context.h" />
-    <ClInclude Include="src\option-syntax-symbols.h" />
-    <ClInclude Include="src\option-syntax.h" />
+    <ClInclude Include="src\base-context.h" />
+    <ClInclude Include="src\context.h" />
     <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\serial-value-context.h" />
+    <ClInclude Include="src\symbols.h" />
+    <ClInclude Include="src\syntax.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
