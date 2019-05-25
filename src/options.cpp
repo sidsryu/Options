@@ -61,7 +61,7 @@ bool Options::ParseOptions(std::wstring commandLine)
 	std::wregex optionPattern(MakeMatchOption());
 
 	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
-	for(std::wsregex_token_iterator it = begin; it != end; it++)
+	for (std::wsregex_token_iterator it = begin; it != end; it++)
 	{
 		std::wstring token = *it;
 
@@ -70,13 +70,13 @@ bool Options::ParseOptions(std::wstring commandLine)
 		{
 			return false;
 		}
-		
+
 		std::wstring option = optionResult[1].str();
 		std::wstring arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
 
 		for (auto& optionSet : m_listofOption)
 		{
-			if (!optionSet->Match(option))	continue;				
+			if (!optionSet->Match(option))	continue;
 			if (!optionSet->SetArgument(arguments, m_symbols->GetSerialSeparator()))	return false;
 		}
 	}
@@ -85,7 +85,7 @@ bool Options::ParseOptions(std::wstring commandLine)
 }
 
 std::wstring Options::MakeNotMatch(std::wstring text)
-{	
+{
 	if (text.empty())
 	{
 		return L"";
@@ -115,10 +115,10 @@ std::wstring Options::MakeMatchValue(std::wstring notMatch)
 {
 	// Goal: "((first_value)(rest_value)*)
 	// Goal: "((?:no_separator.)+)(?:separator(?:no_separator.)+)*)"
-	
+
 	auto begin = L"(";
 	auto end = L")";
-	
+
 	auto no_match = MakeNotMatch(notMatch);
 	auto no_separator = MakeNotMatch(m_symbols->GetSerialSeparator());
 	auto first_value = L"(?:" + no_match + no_separator + L".)+";
@@ -155,7 +155,7 @@ std::wstring Options::MakeMatchKey()
 std::wstring Options::MakeMatchValues()
 {
 	// Goal: "(?:separator *(?:quotation_string|serial_values))?"
-	
+
 	auto begin = L"(?:"; // 캡처 안함
 	auto end = L")?"; // 0 or 1개, key만 있을 수 있음.
 

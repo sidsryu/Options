@@ -21,7 +21,7 @@ public:
 	}
 
 	bool Parse(std::wstring commandLine);
-	
+
 	bool SetSwitch(std::wstring newSwitch);
 	bool SetKeyValueSeparator(std::wstring newKeyValueSeparator);
 	bool SetSerialSeparator(std::wstring newSerialSeparator);
@@ -29,7 +29,7 @@ public:
 private:
 	bool ValidCommandLine(std::wstring commandLine);
 	bool ParseOptions(std::wstring commandLine);
-	
+
 	std::wstring MakeNotMatch(std::wstring text);
 	std::wstring MakeMatchOption(void);
 	std::wstring MakeMatchValue(std::wstring notMatch);
