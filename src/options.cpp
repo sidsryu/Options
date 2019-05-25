@@ -1,9 +1,8 @@
 #include "options.h"
-#include "option-syntax-symbols.h"
-#include <sstream>
+#include "option-syntax.h"
 
 Options::Options()
-	: m_symbols(std::make_unique<OptionSyntaxSymbols>())
+	: m_syntax(std::make_unique<OptionSyntax>())
 {}
 
 Options::~Options()
@@ -21,7 +20,7 @@ bool Options::Parse(const std::wstring& commandLine) const
 
 bool Options::ValidCommandLine(const std::wstring& commandLine) const
 {
-	auto verification = VerificationRegex();
+	auto verification = m_syntax->VerificationRegex();
 	return VerifyRegex(commandLine, verification);
 }
 
@@ -35,7 +34,7 @@ bool Options::VerifyRegex(const std::wstring& str, const std::wstring& pattern) 
 
 bool Options::ParseOptions(const std::wstring& commandLine) const
 {
-	std::wregex optionPattern(OptionRegex());
+	std::wregex optionPattern(m_syntax->OptionRegex());
 
 	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
 	for (std::wsregex_token_iterator it = begin; it != end; it++)
@@ -54,7 +53,7 @@ bool Options::ParseOptions(const std::wstring& commandLine) const
 		for (auto& optionSet : m_listofOption)
 		{
 			if (!optionSet->Match(option)) continue;
-			if (!optionSet->SetArgument(arguments, m_symbols->GetSerialSeparator())) return false;
+			if (!optionSet->SetArgument(arguments, m_syntax->GetSerialSeparator())) return false;
 		}
 	}
 
@@ -63,89 +62,15 @@ bool Options::ParseOptions(const std::wstring& commandLine) const
 
 bool Options::SetSwitch(const std::wstring& newSwitch)
 {
-	return m_symbols->SetSwitch(newSwitch);
+	return m_syntax->SetSwitch(newSwitch);
 }
 
 bool Options::SetKeyValueSeparator(const std::wstring& newKeyValueSeparator)
 {
-	return m_symbols->SetKeyValueSeparator(newKeyValueSeparator);
+	return m_syntax->SetKeyValueSeparator(newKeyValueSeparator);
 }
 
 bool Options::SetSerialSeparator(const std::wstring& newSerialSeparator)
 {
-	return m_symbols->SetSerialSeparator(newSerialSeparator);
-}
-
-std::wstring Options::NotContainRegex(const std::wstring& excluded) const
-{
-	// Goal: "" or "(?!excluded)"
-
-	if (excluded.empty()) return L"";
-	return L"(?!" + excluded + L")";
-}
-
-std::wstring Options::OptionRegex(void) const
-{
-	// Goal: "switch(key)(?:separator *values)?"
-	// like "-key" or "-key=values"
-
-	auto switchSymbol = m_symbols->GetSwitch();
-	auto separator = m_symbols->GetKeyValueSeparator();
-
-	return switchSymbol +
-		L"(" + KeyRegex() + L")(?:" + separator + L" *" + ValuesRegex() + L")?";
-}
-
-std::wstring Options::SerialValuesRegex(const std::wstring& excluded) const
-{
-	// Goal: "(value(?:separator value)*)"
-
-	auto value = ValueRegex(excluded);
-	auto separator = m_symbols->GetSerialSeparator();
-
-	return L"(" + value + L"(?:" + separator + value + L")*)";
-}
-
-std::wstring Options::KeyRegex() const
-{
-	// Goal: "(?:no_contain_switch_and_separator.)+"
-
-	auto noSwitch = NotContainRegex(m_symbols->GetSwitch());
-	auto noSeparator = NotContainRegex(m_symbols->GetKeyValueSeparator());
-
-	return L"(?:" + noSwitch + noSeparator + L".)+";
-}
-
-std::wstring Options::ValuesRegex() const
-{
-	// Goal: "(?:quotation_values|not_quotation_values)"
-	return L"(?:" + QuotationValuesRegex() + L"|" + NotQuotationValuesRegex() + L")";
-}
-
-std::wstring Options::QuotationValuesRegex() const
-{
-	// Goal: R"("not_contain_quote_values")"
-	return L"\"" + SerialValuesRegex(L"\"") + L"\"";
-}
-
-std::wstring Options::NotQuotationValuesRegex() const
-{
-	// Goal: "not_contain_switch_values"
-	return SerialValuesRegex(m_symbols->GetSwitch());
-}
-
-std::wstring Options::ValueRegex(const std::wstring& excluded) const
-{
-	// Goal: "(?:no_contain_symbols.)+"
-
-	auto noSymbols = NotContainRegex(excluded);
-	auto noSeparator = NotContainRegex(m_symbols->GetSerialSeparator());
-
-	return L"(?:" + noSymbols + noSeparator + L".)+";
-}
-
-std::wstring Options::VerificationRegex() const
-{
-	// Goal: "((^| +)option)* *"
-	return L"((^| +)" + OptionRegex() + L")* *";
+	return m_syntax->SetSerialSeparator(newSerialSeparator);
 }

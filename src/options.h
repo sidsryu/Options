@@ -6,7 +6,7 @@
 #include <memory>
 
 class OptionSetBase;
-class OptionSyntaxSymbols;
+class OptionSyntax;
 
 class Options
 {
@@ -31,17 +31,7 @@ private:
 	bool VerifyRegex(const std::wstring& str, const std::wstring& pattern) const;
 	bool ParseOptions(const std::wstring& commandLine) const;
 
-	std::wstring VerificationRegex() const;
-	std::wstring NotContainRegex(const std::wstring& text) const;	
-	std::wstring OptionRegex(void) const;
-	std::wstring SerialValuesRegex(const std::wstring& excluded) const;
-	std::wstring KeyRegex() const;
-	std::wstring ValuesRegex() const;
-	std::wstring ValueRegex(const std::wstring& excluded) const;
-	std::wstring QuotationValuesRegex() const;
-	std::wstring NotQuotationValuesRegex() const;
-
 private:
 	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
-	std::unique_ptr<OptionSyntaxSymbols> m_symbols;
+	std::unique_ptr<OptionSyntax> m_syntax;
 };
