@@ -21,13 +21,13 @@ public:
 	std::wstring SingleOption(void) const;
 
 private:
-	std::wstring NotContainRegex(const std::wstring& text) const;
-	std::wstring SerialValuesRegex(const std::wstring& excluded) const;
-	std::wstring KeyRegex() const;
-	std::wstring ValuesRegex() const;
-	std::wstring ValueRegex(const std::wstring& excluded) const;
-	std::wstring QuotationValuesRegex() const;
-	std::wstring NotQuotationValuesRegex() const;
+	std::wstring NotContain(const std::wstring& text) const;
+	std::wstring SerialValues(const std::wstring& excluded) const;
+	std::wstring SingleKey() const;
+	std::wstring WholeValues() const;
+	std::wstring SingleValue(const std::wstring& excluded) const;
+	std::wstring QuotedWholeValues() const;
+	std::wstring PlaneWholeValues() const;
 
 private:
 	std::unique_ptr<OptionSyntaxSymbols> m_symbols;
