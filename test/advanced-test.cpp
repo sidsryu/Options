@@ -8,19 +8,19 @@ TEST_CASE("Parse command line for advanced case", "[advanced][todo][!hide]")
 	SECTION("Print out auto generated help description")
 	{}
 
-	SECTION("Check extra arguemnt (aka. dynamic switch)")
+	SECTION("Check extra arguemnt (aka. dynamic sigil)")
 	{
 		// app.exe extra argument -f
 	}
 
-	SECTION("Use shot switch (aka. no key-value separator)")
+	SECTION("Use shot flag (aka. no separator)")
 	{
 		// -fFilename
 	}
 
 	SECTION("Use whole value without quotes")
 	{
-		// -f an_argument	
+		// -f an_argument
 	}
 
 	SECTION("Use include whitespace values")

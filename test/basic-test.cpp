@@ -57,48 +57,48 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(filenames == L"first second third");
 	}
 
-	SECTION("Use custom switch")
+	SECTION("Use custom sigil")
 	{
 		bool help;
 
 		options.Add(L"help", L"", help);
-		options.SetSwitch(L"/");
+		options.SetSigil(L"/");
 
 		REQUIRE(options.Parse(L"/help"));
 
 		CHECK(help);
 	}
 
-	SECTION("Escape switch that regex literal")
+	SECTION("Escape sigil that regex literal")
 	{
 		bool help;
 
 		options.Add(L"help", L"", help);
-		options.SetSwitch(L"*");
+		options.SetSigil(L"*");
 
 		REQUIRE(options.Parse(L"*help"));
 
 		CHECK(help);
 	}
 
-	SECTION("Use custom key-value separator")
+	SECTION("Use custom separator")
 	{
 		std::wstring filename;
 
 		options.Add(L"file", L"", filename);
-		options.SetKeyValueSeparator(L"=");
+		options.SetSeparator(L"=");
 
 		REQUIRE(options.Parse(L"-file=filename"));
 
 		CHECK(filename == L"filename");
 	}
 
-	SECTION("Use custom value serial separator")
+	SECTION("Use custom serialer")
 	{
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.SetSerialSeparator(L",");
+		options.SetSerialer(L",");
 
 		REQUIRE(options.Parse(L"-file first, second double, third"));
 
@@ -108,48 +108,48 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(fileList[2] == L"third");
 	}
 
-	SECTION("Use custom value serial separator with a single binded variable")
+	SECTION("Use custom serialer with a single binded variable")
 	{
 		std::wstring filenames;
 
 		options.Add(L"file", L"", filenames);
-		options.SetSerialSeparator(L",");
+		options.SetSerialer(L",");
 
 		REQUIRE(options.Parse(L"-file first, second double, third"));
 
 		CHECK(filenames == L"first, second double, third");
 	}
 
-	SECTION("Use multiple character switch")
+	SECTION("Use multiple character sigil")
 	{
 		bool help;
 
 		options.Add(L"help", L"", help);
-		options.SetSwitch(L"--");
+		options.SetSigil(L"--");
 
 		REQUIRE(options.Parse(L"--help"));
 
 		CHECK(help);
 	}
 
-	SECTION("Use multiple character key-value separator")
+	SECTION("Use multiple character separator")
 	{
 		std::wstring filename;
 
 		options.Add(L"file", L"", filename);
-		options.SetKeyValueSeparator(L"=>");
+		options.SetSeparator(L"=>");
 
 		REQUIRE(options.Parse(L"-file=>filename"));
 
 		CHECK(filename == L"filename");
 	}
 
-	SECTION("Use multiple character value serial separator")
+	SECTION("Use multiple character serialer")
 	{
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.SetSerialSeparator(L";;");
+		options.SetSerialer(L";;");
 
 		REQUIRE(options.Parse(L"-file first;;second double;;third"));
 
@@ -159,12 +159,12 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(fileList[2] == L"third");
 	}
 
-	SECTION("Use multiple character value serial separator with a single binded variable")
+	SECTION("Use multiple character serialer with a single binded variable")
 	{
 		std::wstring filenames;
 
 		options.Add(L"file", L"", filenames);
-		options.SetSerialSeparator(L";;");
+		options.SetSerialer(L";;");
 
 		REQUIRE(options.Parse(L"-file first;;second double;;third"));
 
@@ -176,9 +176,9 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.SetSwitch(L"-[");
-		options.SetKeyValueSeparator(L"]=");
-		options.SetSerialSeparator(L";;");
+		options.SetSigil(L"-[");
+		options.SetSeparator(L"]=");
+		options.SetSerialer(L";;");
 
 		REQUIRE(options.Parse(L"-[file]=first;;second double;;third"));
 
@@ -193,21 +193,21 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::wstring filenames;
 
 		options.Add(L"file", L"", filenames);
-		options.SetSwitch(L"-[");
-		options.SetKeyValueSeparator(L"]=");
-		options.SetSerialSeparator(L";;");
+		options.SetSigil(L"-[");
+		options.SetSeparator(L"]=");
+		options.SetSerialer(L";;");
 
 		REQUIRE(options.Parse(L"-[file]=first;;second double;;third"));
 
 		CHECK(filenames == L"first;;second double;;third");
 	}
 
-	SECTION("Use no-switch options")
+	SECTION("Use no-sigil options")
 	{
 		std::vector<std::wstring> launchList;
 
 		options.Add(L"launch", L"", launchList);
-		options.SetSwitch(L"");
+		options.SetSigil(L"");
 
 		REQUIRE(options.Parse(L"launch test localhost 109 1 1 1"));
 
@@ -220,24 +220,24 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(launchList[5] == L"1");
 	}
 
-	SECTION("Use no-switch options not matching")
+	SECTION("Use no-sigil options not matching")
 	{
 		std::vector<std::wstring> noexitList;
 
 		options.Add(L"noexit", L"", noexitList);
-		options.SetSwitch(L"");
+		options.SetSigil(L"");
 
 		REQUIRE(options.Parse(L"launch test localhost 109 1 1 1"));
 
 		CHECK(noexitList.empty());
 	}
 
-	SECTION("Use no-switch options first argument not matching")
+	SECTION("Use no-sigil options first argument not matching")
 	{
 		std::vector<std::wstring> localhostList;
 
 		options.Add(L"localhost", L"", localhostList);
-		options.SetSwitch(L"");
+		options.SetSigil(L"");
 
 		REQUIRE(options.Parse(L"launch test localhost 109 1 1 1"));
 
@@ -249,7 +249,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::vector<std::wstring> fileList;
 
 		options.Add(L"file", L"", fileList);
-		options.SetSerialSeparator(L",");
+		options.SetSerialer(L",");
 
 		REQUIRE(options.Parse(L"-file \"first, second double, 3-rd\""));
 
@@ -264,7 +264,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		std::wstring filenames;
 
 		options.Add(L"file", L"", filenames);
-		options.SetSerialSeparator(L",");
+		options.SetSerialer(L",");
 
 		REQUIRE(options.Parse(L"-file \"first, second double, 3-rd\""));
 

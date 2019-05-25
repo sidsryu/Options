@@ -12,48 +12,48 @@ namespace {
 }
 
 OptionSyntaxSymbols::OptionSyntaxSymbols()
-	: m_switch(L"-")
-	, m_keyValueSeparator(L" ")
-	, m_serialSeparator(L" ")
+	: m_sigil(L"-")
+	, m_separator(L" ")
+	, m_serialer(L" ")
 {}
 
 OptionSyntaxSymbols::~OptionSyntaxSymbols()
 {}
 
-bool OptionSyntaxSymbols::SetSwitch(const std::wstring& newSwitch)
+bool OptionSyntaxSymbols::SetSigil(const std::wstring& sigil)
 {
-	// Emtpy switch 허용 - commandLine 전체를 하나의 옵션으로 취급하게된다.
-	m_switch = EscapeRegex(newSwitch);
+	// Emtpy sigil 허용 - commandLine 전체를 하나의 옵션으로 취급하게된다.
+	m_sigil = EscapeRegex(sigil);
 	return true;
 }
 
-bool OptionSyntaxSymbols::SetKeyValueSeparator(const std::wstring& newKeyValueSeparator)
+bool OptionSyntaxSymbols::SetSeparator(const std::wstring& separator)
 {
-	if (newKeyValueSeparator.empty()) return false;
+	if (separator.empty()) return false;
 
-	m_keyValueSeparator = EscapeRegex(newKeyValueSeparator);
+	m_separator = EscapeRegex(separator);
 	return true;
 }
 
-bool OptionSyntaxSymbols::SetSerialSeparator(const std::wstring& newSerialSeparator)
+bool OptionSyntaxSymbols::SetSerialer(const std::wstring& serialer)
 {
-	if (newSerialSeparator.empty()) return false;
+	if (serialer.empty()) return false;
 
-	m_serialSeparator = EscapeRegex(newSerialSeparator);
+	m_serialer = EscapeRegex(serialer);
 	return true;
 }
 
-std::wstring OptionSyntaxSymbols::GetSwitch() const
+std::wstring OptionSyntaxSymbols::GetSigil() const
 {
-	return m_switch;
+	return m_sigil;
 }
 
-std::wstring OptionSyntaxSymbols::GetKeyValueSeparator() const
+std::wstring OptionSyntaxSymbols::GetSeparator() const
 {
-	return m_keyValueSeparator;
+	return m_separator;
 }
 
-std::wstring OptionSyntaxSymbols::GetSerialSeparator() const
+std::wstring OptionSyntaxSymbols::GetSerialer() const
 {
-	return m_serialSeparator;
+	return m_serialer;
 }

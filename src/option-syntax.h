@@ -11,11 +11,11 @@ public:
 	OptionSyntax();
 	virtual ~OptionSyntax();
 
-	bool SetSwitch(const std::wstring& newSwitch);
-	bool SetKeyValueSeparator(const std::wstring& newKeyValueSeparator);
-	bool SetSerialSeparator(const std::wstring& newSerialSeparator);
+	bool SetSigil(const std::wstring& sigil);
+	bool SetSeparator(const std::wstring& separator);
+	bool SetSerialer(const std::wstring& serialer);
 
-	std::wstring GetSerialSeparator() const;
+	std::wstring GetSerialer() const;
 
 	std::wstring WholeCommandLine() const;
 	std::wstring SingleOption(void) const;

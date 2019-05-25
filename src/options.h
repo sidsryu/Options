@@ -22,9 +22,9 @@ public:
 
 	bool Parse(const std::wstring& commandLine) const;
 
-	bool SetSwitch(const std::wstring& newSwitch);
-	bool SetKeyValueSeparator(const std::wstring& newKeyValueSeparator);
-	bool SetSerialSeparator(const std::wstring& newSerialSeparator);
+	bool SetSigil(const std::wstring& sigil);
+	bool SetSeparator(const std::wstring& separator);
+	bool SetSerialer(const std::wstring& serialer);
 
 private:
 	bool ValidCommandLine(const std::wstring& commandLine) const;

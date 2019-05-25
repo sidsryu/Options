@@ -8,16 +8,16 @@ public:
 	OptionSyntaxSymbols();
 	virtual ~OptionSyntaxSymbols();
 
-	bool SetSwitch(const std::wstring& newSwitch);
-	bool SetKeyValueSeparator(const std::wstring& newKeyValueSeparator);
-	bool SetSerialSeparator(const std::wstring& newSerialSeparator);
+	bool SetSigil(const std::wstring& sigil);
+	bool SetSeparator(const std::wstring& separator);
+	bool SetSerialer(const std::wstring& serialer);
 
-	std::wstring GetSwitch() const;
-	std::wstring GetKeyValueSeparator() const;
-	std::wstring GetSerialSeparator() const;
+	std::wstring GetSigil() const;
+	std::wstring GetSeparator() const;
+	std::wstring GetSerialer() const;
 
 private:
-	std::wstring m_switch;
-	std::wstring m_keyValueSeparator;
-	std::wstring m_serialSeparator;
+	std::wstring m_sigil;
+	std::wstring m_separator;
+	std::wstring m_serialer;
 };

@@ -8,24 +8,24 @@ OptionSyntax::OptionSyntax()
 OptionSyntax::~OptionSyntax()
 {}
 
-bool OptionSyntax::SetSwitch(const std::wstring& newSwitch)
+bool OptionSyntax::SetSigil(const std::wstring& sigil)
 {
-	return m_symbols->SetSwitch(newSwitch);
+	return m_symbols->SetSigil(sigil);
 }
 
-bool OptionSyntax::SetKeyValueSeparator(const std::wstring& newKeyValueSeparator)
+bool OptionSyntax::SetSeparator(const std::wstring& separator)
 {
-	return m_symbols->SetKeyValueSeparator(newKeyValueSeparator);
+	return m_symbols->SetSeparator(separator);
 }
 
-bool OptionSyntax::SetSerialSeparator(const std::wstring& newSerialSeparator)
+bool OptionSyntax::SetSerialer(const std::wstring& serialer)
 {
-	return m_symbols->SetSerialSeparator(newSerialSeparator);
+	return m_symbols->SetSerialer(serialer);
 }
 
-std::wstring OptionSyntax::GetSerialSeparator() const
+std::wstring OptionSyntax::GetSerialer() const
 {
-	return m_symbols->GetSerialSeparator();
+	return m_symbols->GetSerialer();
 }
 
 std::wstring OptionSyntax::WholeCommandLine() const
@@ -36,24 +36,24 @@ std::wstring OptionSyntax::WholeCommandLine() const
 
 std::wstring OptionSyntax::SingleOption(void) const
 {
-	// Goal: "switch(key)(?:separator *values)?"
+	// Goal: "sigil(key)(?:separator *values)?"
 	// like "-key" or "-key=values"
 
-	auto switchSymbol = m_symbols->GetSwitch();
-	auto separator = m_symbols->GetKeyValueSeparator();
+	auto sigil = m_symbols->GetSigil();
+	auto separator = m_symbols->GetSeparator();
 
-	return switchSymbol +
+	return sigil +
 		L"(" + SingleKey() + L")(?:" + separator + L" *" + WholeValues() + L")?";
 }
 
 std::wstring OptionSyntax::SingleKey() const
 {
-	// Goal: "(?:no_contain_switch_and_separator.)+"
+	// Goal: "(?:no_contain_sigil_and_separator.)+"
 
-	auto noSwitch = NotContain(m_symbols->GetSwitch());
-	auto noSeparator = NotContain(m_symbols->GetKeyValueSeparator());
+	auto noSigil = NotContain(m_symbols->GetSigil());
+	auto noSeparator = NotContain(m_symbols->GetSeparator());
 
-	return L"(?:" + noSwitch + noSeparator + L".)+";
+	return L"(?:" + noSigil + noSeparator + L".)+";
 }
 
 std::wstring OptionSyntax::WholeValues() const
@@ -70,28 +70,28 @@ std::wstring OptionSyntax::QuotedWholeValues() const
 
 std::wstring OptionSyntax::PlaneWholeValues() const
 {
-	// Goal: "not_contain_switch_values"
-	return SerialValues(m_symbols->GetSwitch());
+	// Goal: "not_contain_sigil_values"
+	return SerialValues(m_symbols->GetSigil());
 }
 
 std::wstring OptionSyntax::SerialValues(const std::wstring& excluded) const
 {
-	// Goal: "(value(?:separator value)*)"
+	// Goal: "(value(?:serialervalue)*)"
 
 	auto value = SingleValue(excluded);
-	auto separator = m_symbols->GetSerialSeparator();
+	auto serialer = m_symbols->GetSerialer();
 
-	return L"(" + value + L"(?:" + separator + value + L")*)";
+	return L"(" + value + L"(?:" + serialer + value + L")*)";
 }
 
 std::wstring OptionSyntax::SingleValue(const std::wstring& excluded) const
 {
 	// Goal: "(?:no_contain_symbols.)+"
 
-	auto noSymbols = NotContain(excluded);
-	auto noSeparator = NotContain(m_symbols->GetSerialSeparator());
+	auto noMatch = NotContain(excluded);
+	auto noSerialer = NotContain(m_symbols->GetSerialer());
 
-	return L"(?:" + noSymbols + noSeparator + L".)+";
+	return L"(?:" + noMatch + noSerialer + L".)+";
 }
 
 std::wstring OptionSyntax::NotContain(const std::wstring& excluded) const

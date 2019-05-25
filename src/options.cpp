@@ -53,24 +53,24 @@ bool Options::ParseOptions(const std::wstring& commandLine) const
 		for (auto& optionSet : m_listofOption)
 		{
 			if (!optionSet->Match(option)) continue;
-			if (!optionSet->SetArgument(arguments, m_syntax->GetSerialSeparator())) return false;
+			if (!optionSet->SetArgument(arguments, m_syntax->GetSerialer())) return false;
 		}
 	}
 
 	return true;
 }
 
-bool Options::SetSwitch(const std::wstring& newSwitch)
+bool Options::SetSigil(const std::wstring& sigil)
 {
-	return m_syntax->SetSwitch(newSwitch);
+	return m_syntax->SetSigil(sigil);
 }
 
-bool Options::SetKeyValueSeparator(const std::wstring& newKeyValueSeparator)
+bool Options::SetSeparator(const std::wstring& separator)
 {
-	return m_syntax->SetKeyValueSeparator(newKeyValueSeparator);
+	return m_syntax->SetSeparator(separator);
 }
 
-bool Options::SetSerialSeparator(const std::wstring& newSerialSeparator)
+bool Options::SetSerialer(const std::wstring& serialer)
 {
-	return m_syntax->SetSerialSeparator(newSerialSeparator);
+	return m_syntax->SetSerialer(serialer);
 }
