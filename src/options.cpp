@@ -1,6 +1,7 @@
 #include "options.h"
 #include "option-syntax.h"
 
+namespace options {
 Options::Options()
 	: m_syntax(std::make_unique<OptionSyntax>())
 {}
@@ -77,4 +78,5 @@ bool Options::SetSeparator(const std::wstring& separator)
 bool Options::SetSerialer(const std::wstring& serialer)
 {
 	return m_syntax->SetSerialer(serialer);
+}
 }

@@ -2,6 +2,7 @@
 
 #include "option-context-base.h"
 
+namespace options {
 class OptionContextSerial : public OptionContextBase
 {
 public:
@@ -14,3 +15,4 @@ public:
 protected:
 	virtual bool PushSplitedValue(const std::wstring& value) = 0;
 };
+}

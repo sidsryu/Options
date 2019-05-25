@@ -1,5 +1,7 @@
 #include "../extern/catch.hpp"
-#include "../src/Options.h"
+#include "../src/options.h"
+
+using namespace options;
 
 TEST_CASE("Parse command line for advanced case", "[advanced][todo][!hide]")
 {

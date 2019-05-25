@@ -1,13 +1,14 @@
 #include "option-syntax-symbols.h"
 #include <regex>
 
+namespace options {
 namespace {
-	std::wstring EscapeRegex(std::wstring text)
-	{
-		// default regex ordinary character (ECMAScript only)
-		std::wregex pattern{ LR"([()[\]{}|^$\.*+?])" };
-		return std::regex_replace(text, pattern, LR"(\$&)");
-	}
+std::wstring EscapeRegex(std::wstring text)
+{
+	// default regex ordinary character (ECMAScript only)
+	std::wregex pattern{ LR"([()[\]{}|^$\.*+?])" };
+	return std::regex_replace(text, pattern, LR"(\$&)");
+}
 }
 
 OptionSyntaxSymbols::OptionSyntaxSymbols()
@@ -55,4 +56,5 @@ std::wstring OptionSyntaxSymbols::GetSeparator() const
 std::wstring OptionSyntaxSymbols::GetSerialer() const
 {
 	return m_serialer;
+}
 }

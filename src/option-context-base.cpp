@@ -1,5 +1,6 @@
 #include "option-context-base.h"
 
+namespace options {
 OptionContextBase::OptionContextBase(const std::wstring& key,
 	const std::wstring& description)
 	: m_key(key)
@@ -12,4 +13,5 @@ OptionContextBase::~OptionContextBase()
 bool OptionContextBase::IsKey(const std::wstring& key) const
 {
 	return m_key == key;
+}
 }

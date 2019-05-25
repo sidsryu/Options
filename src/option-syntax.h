@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 
+namespace options {
 class OptionSyntaxSymbols;
 
 class OptionSyntax
@@ -28,7 +29,8 @@ private:
 	std::wstring SingleValue(const std::wstring& excluded) const;
 	std::wstring QuotedWholeValues() const;
 	std::wstring PlainWholeValues() const;
-	
+
 private:
 	std::unique_ptr<OptionSyntaxSymbols> m_symbols;
 };
+}

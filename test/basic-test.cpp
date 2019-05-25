@@ -1,6 +1,7 @@
 #include "../extern/catch.hpp"
 #include "../src/options.h"
-#include <regex>
+
+using namespace options;
 
 TEST_CASE("Parse command line for easy case.", "[basic]")
 {

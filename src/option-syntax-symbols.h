@@ -2,6 +2,7 @@
 
 #include <string>
 
+namespace options {
 class OptionSyntaxSymbols
 {
 public:
@@ -21,3 +22,4 @@ private:
 	std::wstring m_separator;
 	std::wstring m_serialer;
 };
+}

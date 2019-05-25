@@ -1,6 +1,7 @@
 #include "option-syntax.h"
 #include "option-syntax-symbols.h"
 
+namespace options {
 OptionSyntax::OptionSyntax()
 	: m_symbols(std::make_unique<OptionSyntaxSymbols>())
 {}
@@ -37,7 +38,7 @@ std::wstring OptionSyntax::SingleOption() const
 	auto sigil = m_symbols->GetSigil();
 	auto separator = m_symbols->GetSeparator();
 
-	return sigil + 
+	return sigil +
 		L"(" + SingleKey() + L")(?:" + separator + L" *" + WholeValues() + L")?";
 }
 
@@ -110,4 +111,5 @@ std::wstring OptionSyntax::BooleanValue() const
 {
 	// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
 	return L" *(true|t|yes|y|enable|e|allow|a)? *";
+}
 }

@@ -5,6 +5,7 @@
 #include "option-syntax.h"
 #include <regex>
 
+namespace options {
 
 // 기본 템플릿 - 템플릿 특수화가 구현되지 않은 타입 사용 시, 빌드에러를 낸다.
 template<typename T>
@@ -149,3 +150,4 @@ public:
 private:
 	std::vector<int>& m_outValue;
 };
+}

@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 
+namespace options {
 class OptionContextBase;
 class OptionSyntax;
 
@@ -37,3 +38,4 @@ private:
 	std::vector<std::unique_ptr<OptionContextBase>> m_listofOption;
 	std::unique_ptr<OptionSyntax> m_syntax;
 };
+}

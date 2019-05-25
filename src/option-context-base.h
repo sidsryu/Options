@@ -2,6 +2,7 @@
 
 #include <string>
 
+namespace options {
 class OptionSyntax;
 
 class OptionContextBase
@@ -18,3 +19,4 @@ private:
 	std::wstring m_key;
 	std::wstring m_description;
 };
+}

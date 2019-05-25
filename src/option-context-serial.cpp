@@ -2,6 +2,7 @@
 #include "option-syntax.h"
 #include <regex>
 
+namespace options {
 OptionContextSerial::OptionContextSerial(
 	const std::wstring& key, const std::wstring& description)
 	: OptionContextBase(key, description)
@@ -24,4 +25,5 @@ bool OptionContextSerial::ParseValues(const std::wstring& values,
 	}
 
 	return true;
+}
 }
