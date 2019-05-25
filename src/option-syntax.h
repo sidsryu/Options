@@ -15,10 +15,9 @@ public:
 	bool SetSeparator(const std::wstring& separator);
 	bool SetSerialer(const std::wstring& serialer);
 
-	std::wstring GetSerialer() const;
-
 	std::wstring WholeCommandLine() const;
-	std::wstring SingleOption(void) const;
+	std::wstring SingleOption() const;
+	std::wstring PopSingleValue() const;
 
 private:
 	std::wstring NotContain(const std::wstring& text) const;

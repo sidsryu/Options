@@ -5,7 +5,7 @@
 
 
 template<typename T>
-class OptionSet: public OptionContextBase
+class OptionSet : public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, T& outValue)
@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	// bool SetArgument() - 구현안함. 템플릿 특수화가 구현되지 않은 타입 사용 시 빌드에러를 낸다.
+	// bool ParseValues() - 구현안함. 템플릿 특수화가 구현되지 않은 타입 사용 시 빌드에러를 낸다.
 
 private:
 	T& m_outValue;
@@ -23,7 +23,7 @@ private:
 
 // 불리언 옵션 - 옵션값을 읽지 않는다. 옵션 스위치만 있어도 true 설정
 template<>
-class OptionSet<bool>: public OptionContextBase
+class OptionSet<bool> : public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, bool& outValue)
@@ -33,19 +33,19 @@ public:
 		m_outValue = false;
 	}
 
-	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
+	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
 	{
 		// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
 		std::wregex pattern(L" *(true|t|yes|y|enable|e|allow|a)? *", std::regex_constants::icase);
 
 		std::match_results<std::wstring::const_iterator> result;
-		if (!std::regex_match(arguments, result, pattern))
+		if (!std::regex_match(values, result, pattern))
 		{
 			return false;
 		}
 
 		m_outValue = true;
-		return true;	
+		return true;
 	}
 
 private:
@@ -55,7 +55,7 @@ private:
 
 // 문자열 옵션 - 옵션값을 통채로 읽는다.
 template<>
-class OptionSet<std::wstring>: public OptionContextBase
+class OptionSet<std::wstring> : public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::wstring& outValue)
@@ -64,10 +64,10 @@ public:
 	{
 	}
 
-	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
+	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
 	{
-		m_outValue = arguments;
-		return true;	
+		m_outValue = values;
+		return true;
 	}
 
 private:
@@ -77,7 +77,7 @@ private:
 
 // 정수 옵션 - 숫자로 읽는다. 숫자가 아닌 값 읽으면 0.
 template<>
-class OptionSet<int>: public OptionContextBase
+class OptionSet<int> : public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, int& outValue)
@@ -87,9 +87,9 @@ public:
 		m_outValue = 0;
 	}
 
-	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
+	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
 	{
-		m_outValue = _wtoi(arguments.c_str());
+		m_outValue = _wtoi(values.c_str());
 		return true;
 	}
 
@@ -100,7 +100,7 @@ private:
 
 // 문자열 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<std::wstring>>: public OptionContextBase
+class OptionSet<std::vector<std::wstring>> : public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<std::wstring>& outValue)
@@ -109,14 +109,14 @@ public:
 	{
 	}
 
-	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
+	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
 	{
-		return Split(arguments, serialSeparator);
+		return Split(values, serialer);
 	}
 
-	virtual bool SetSplitArgument(const std::wstring& argument)
+	virtual bool PushSplitedValue(const std::wstring& value) override
 	{
-		m_outValue.push_back(argument);
+		m_outValue.push_back(value);
 		return true;
 	}
 
@@ -126,7 +126,7 @@ private:
 
 // 숫자 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<int> >: public OptionContextBase
+class OptionSet<std::vector<int> > : public OptionContextBase
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<int>& outValue)
@@ -135,14 +135,14 @@ public:
 	{
 	}
 
-	virtual bool SetArgument(const std::wstring& arguments, const std::wstring& serialSeparator)
+	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
 	{
-		return Split(arguments, serialSeparator);
+		return Split(values, serialer);
 	}
 
-	virtual bool SetSplitArgument(const std::wstring& argument)
+	virtual bool PushSplitedValue(const std::wstring& value) override
 	{
-		m_outValue.push_back(_wtoi(argument.c_str()));
+		m_outValue.push_back(_wtoi(value.c_str()));
 		return true;
 	}
 

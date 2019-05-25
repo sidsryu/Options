@@ -23,18 +23,13 @@ bool OptionSyntax::SetSerialer(const std::wstring& serialer)
 	return m_symbols->SetSerialer(serialer);
 }
 
-std::wstring OptionSyntax::GetSerialer() const
-{
-	return m_symbols->GetSerialer();
-}
-
 std::wstring OptionSyntax::WholeCommandLine() const
 {
 	// Goal: "((^| +)option)* *"
 	return L"((^| +)" + SingleOption() + L")* *";
 }
 
-std::wstring OptionSyntax::SingleOption(void) const
+std::wstring OptionSyntax::SingleOption() const
 {
 	// Goal: "sigil(key)(?:separator *values)?"
 	// like "-key" or "-key=values"
@@ -100,4 +95,13 @@ std::wstring OptionSyntax::NotContain(const std::wstring& excluded) const
 
 	if (excluded.empty()) return L"";
 	return L"(?!" + excluded + L")";
+}
+
+std::wstring OptionSyntax::PopSingleValue() const
+{
+	// Goal: " ?(value) *(?:serialer)?"
+	// sigil, quote 이미 제외되어 있음
+
+	auto serialer = m_symbols->GetSerialer();
+	return L" ?(" + SingleValue({}) + L") *(?:" + serialer + L")?";
 }

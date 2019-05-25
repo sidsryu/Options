@@ -28,16 +28,19 @@ bool Options::VerifySyntax(const std::wstring& str, const std::wstring& syntax) 
 {
 	std::wregex pattern(syntax);
 
-	std::match_results<std::wstring::const_iterator> match;
-	return std::regex_match(str, match, pattern);
+	std::match_results<std::wstring::const_iterator> result;
+	return std::regex_match(str, result, pattern);
 }
 
 bool Options::ParseOptions(const std::wstring& commandLine) const
 {
-	std::wregex optionPattern(m_syntax->SingleOption());
+	auto singleOption = m_syntax->SingleOption();
+	auto popSingleValue = m_syntax->PopSingleValue();
+
+	std::wregex optionPattern(singleOption);
 
 	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
-	for (std::wsregex_token_iterator it = begin; it != end; it++)
+	for (auto it = begin; it != end; it++)
 	{
 		const std::wstring& token = *it;
 
@@ -47,13 +50,13 @@ bool Options::ParseOptions(const std::wstring& commandLine) const
 			return false;
 		}
 
-		const std::wstring& option = optionResult[1].str();
-		const std::wstring& arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
+		const std::wstring& key = optionResult[1].str();
+		const std::wstring& values = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
 
 		for (auto& optionSet : m_listofOption)
 		{
-			if (!optionSet->Match(option)) continue;
-			if (!optionSet->SetArgument(arguments, m_syntax->GetSerialer())) return false;
+			if (!optionSet->IsKey(key)) continue;
+			if (!optionSet->ParseValues(values, popSingleValue)) return false;
 		}
 	}
 

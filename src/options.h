@@ -31,7 +31,7 @@ private:
 	bool VerifySyntax(const std::wstring& str, const std::wstring& syntax) const;
 	bool ParseOptions(const std::wstring& commandLine) const;
 
-private:	
+private:
 	std::vector<std::unique_ptr<OptionContextBase>> m_listofOption;
 	std::unique_ptr<OptionSyntax> m_syntax;
 };
