@@ -6,8 +6,7 @@ namespace {
 	{
 		// default regex ordinary character (ECMAScript only)
 		std::wregex pattern{ LR"([()[\]{}|^$\.*+?])" };
-		auto t = std::regex_replace(text, pattern, LR"(\$&)");
-		return t;
+		return std::regex_replace(text, pattern, LR"(\$&)");
 	}
 }
 

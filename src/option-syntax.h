@@ -27,7 +27,7 @@ private:
 	std::wstring WholeValues() const;
 	std::wstring SingleValue(const std::wstring& excluded) const;
 	std::wstring QuotedWholeValues() const;
-	std::wstring PlaneWholeValues() const;
+	std::wstring PlainWholeValues() const;
 	
 private:
 	std::unique_ptr<OptionSyntaxSymbols> m_symbols;

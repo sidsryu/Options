@@ -11,7 +11,8 @@ public:
 	virtual ~OptionContextBase();
 
 	bool IsKey(const std::wstring& option) const;
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) = 0;
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+		= 0;
 
 private:
 	std::wstring m_key;

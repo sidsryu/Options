@@ -5,21 +5,17 @@
 #include "option-syntax.h"
 #include <regex>
 
+
+// 기본 템플릿 - 템플릿 특수화가 구현되지 않은 타입 사용 시, 빌드에러를 낸다.
 template<typename T>
 class OptionContext : public OptionContextBase
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description, T& outValue)
-		: OptionContextBase(key, description)
-		, m_outValue(outValue)
-	{
-	}
+	OptionContext(const std::wstring& key, const std::wstring& description,
+		T& outValue)
+	{}
 
-	// 구현안함. 템플릿 특수화가 구현되지 않은 타입 사용 시 빌드에러를 낸다.
-	 virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) = delete;
-
-private:
-	T& m_outValue;
+	// ParseValues() 빌드에러를 내기위해 구현안함.
 };
 
 
@@ -28,14 +24,16 @@ template<>
 class OptionContext<bool> : public OptionContextBase
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description, bool& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description,
+		bool& outValue)
 		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = false;
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+		override
 	{
 		auto booleanValue = syntax.BooleanValue();
 		std::wregex pattern(booleanValue, std::regex_constants::icase);
@@ -60,13 +58,16 @@ template<>
 class OptionContext<std::wstring> : public OptionContextBase
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description, std::wstring& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description,
+		std::wstring& outValue)
 		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
+		m_outValue = {};
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+		override
 	{
 		m_outValue = values;
 		return true;
@@ -82,16 +83,18 @@ template<>
 class OptionContext<int> : public OptionContextBase
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description, int& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description,
+		int& outValue)
 		: OptionContextBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = 0;
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+		override
 	{
-		m_outValue = _wtoi(values.c_str());
+		m_outValue = std::stoi(values.c_str());
 		return true;
 	}
 
@@ -100,15 +103,17 @@ private:
 };
 
 
-// 문자열 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
+// 문자열 목록 옵션 - 시리얼러 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
 class OptionContext<std::vector<std::wstring>> : public OptionContextSerial
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description, std::vector<std::wstring>& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description,
+		std::vector<std::wstring>& outValue)
 		: OptionContextSerial(key, description)
 		, m_outValue(outValue)
 	{
+		m_outValue = {};
 	}
 
 	virtual bool PushSplitedValue(const std::wstring& value) override
@@ -121,20 +126,23 @@ private:
 	std::vector<std::wstring>& m_outValue;
 };
 
-// 숫자 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
+
+// 숫자 목록 옵션 - 시리얼러 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
 class OptionContext<std::vector<int> > : public OptionContextSerial
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description, std::vector<int>& outValue)
+	OptionContext(const std::wstring& key, const std::wstring& description,
+		std::vector<int>& outValue)
 		: OptionContextSerial(key, description)
 		, m_outValue(outValue)
 	{
+		m_outValue = {};
 	}
 
 	virtual bool PushSplitedValue(const std::wstring& value) override
 	{
-		m_outValue.push_back(_wtoi(value.c_str()));
+		m_outValue.push_back(std::stoi(value.c_str()));
 		return true;
 	}
 

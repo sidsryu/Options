@@ -10,16 +10,17 @@ OptionContextSerial::OptionContextSerial(
 OptionContextSerial::~OptionContextSerial()
 {}
 
-bool OptionContextSerial::ParseValues(
-	const std::wstring& values, const OptionSyntax& syntax)
+bool OptionContextSerial::ParseValues(const std::wstring& values,
+	const OptionSyntax& syntax)
 {
 	auto popSingleValue = syntax.PopSingleValue();
 	std::wregex pattern(popSingleValue);
 
-	std::wsregex_token_iterator begin(values.begin(), values.end(), pattern, 1), end;
-	for (auto it = begin; it != end; it++)
+	std::wsregex_token_iterator begin(values.begin(), values.end(), pattern, 1);
+	std::wsregex_token_iterator end;
+	for (auto pos = begin; pos != end; pos++)
 	{
-		if (!PushSplitedValue(*it))	return false;
+		if (!PushSplitedValue(*pos)) return false;
 	}
 
 	return true;

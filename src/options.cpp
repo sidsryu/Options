@@ -35,27 +35,29 @@ bool Options::VerifySyntax(const std::wstring& str, const std::wstring& syntax) 
 bool Options::ParseOptions(const std::wstring& commandLine) const
 {
 	auto singleOption = m_syntax->SingleOption();
+	std::wregex pattern(singleOption);
 
-	std::wregex optionPattern(singleOption);
-
-	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
-	for (auto it = begin; it != end; it++)
+	std::wsregex_token_iterator end;
+	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(),
+		pattern);
+	for (auto pos = begin; pos != end; pos++)
 	{
-		const std::wstring& token = *it;
+		const std::wstring& option = *pos;
 
-		std::match_results<std::wstring::const_iterator> optionResult;
-		if (!std::regex_match(token, optionResult, optionPattern))
+		std::match_results<std::wstring::const_iterator> result;
+		if (!std::regex_match(option, result, pattern))
 		{
 			return false;
 		}
 
-		const std::wstring& key = optionResult[1].str();
-		const std::wstring& values = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
+		// [1]: key, [2]: quoted values, [3]: plain values
+		std::wstring key = result[1].str();
+		std::wstring values = result[2].matched ? result[2].str() : result[3].str();
 
-		for (auto& optionSet : m_listofOption)
+		for (auto& it : m_listofOption)
 		{
-			if (!optionSet->IsKey(key)) continue;
-			if (!optionSet->ParseValues(values, *m_syntax.get())) return false;
+			if (!it->IsKey(key)) continue;
+			if (!it->ParseValues(values, *m_syntax.get())) return false;
 		}
 	}
 

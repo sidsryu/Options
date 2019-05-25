@@ -37,7 +37,7 @@ std::wstring OptionSyntax::SingleOption() const
 	auto sigil = m_symbols->GetSigil();
 	auto separator = m_symbols->GetSeparator();
 
-	return sigil +
+	return sigil + 
 		L"(" + SingleKey() + L")(?:" + separator + L" *" + WholeValues() + L")?";
 }
 
@@ -53,8 +53,8 @@ std::wstring OptionSyntax::SingleKey() const
 
 std::wstring OptionSyntax::WholeValues() const
 {
-	// Goal: "(?:quoted_values|plane_values)"
-	return L"(?:" + QuotedWholeValues() + L"|" + PlaneWholeValues() + L")";
+	// Goal: "(?:quoted_values|plain_values)"
+	return L"(?:" + QuotedWholeValues() + L"|" + PlainWholeValues() + L")";
 }
 
 std::wstring OptionSyntax::QuotedWholeValues() const
@@ -63,7 +63,7 @@ std::wstring OptionSyntax::QuotedWholeValues() const
 	return L"\"" + SerialValues(L"\"") + L"\"";
 }
 
-std::wstring OptionSyntax::PlaneWholeValues() const
+std::wstring OptionSyntax::PlainWholeValues() const
 {
 	// Goal: "not_contain_sigil_values"
 	return SerialValues(m_symbols->GetSigil());

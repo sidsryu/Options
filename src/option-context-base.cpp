@@ -1,6 +1,7 @@
 #include "option-context-base.h"
 
-OptionContextBase::OptionContextBase(const std::wstring& key, const std::wstring& description)
+OptionContextBase::OptionContextBase(const std::wstring& key,
+	const std::wstring& description)
 	: m_key(key)
 	, m_description(description)
 {}
