@@ -28,15 +28,13 @@ std::wstring OptionSyntax::GetSerialSeparator() const
 	return m_symbols->GetSerialSeparator();
 }
 
-std::wstring OptionSyntax::NotContainRegex(const std::wstring& excluded) const
+std::wstring OptionSyntax::WholeCommandLine() const
 {
-	// Goal: "" or "(?!excluded)"
-
-	if (excluded.empty()) return L"";
-	return L"(?!" + excluded + L")";
+	// Goal: "((^| +)option)* *"
+	return L"((^| +)" + SingleOption() + L")* *";
 }
 
-std::wstring OptionSyntax::OptionRegex(void) const
+std::wstring OptionSyntax::SingleOption(void) const
 {
 	// Goal: "switch(key)(?:separator *values)?"
 	// like "-key" or "-key=values"
@@ -46,6 +44,14 @@ std::wstring OptionSyntax::OptionRegex(void) const
 
 	return switchSymbol +
 		L"(" + KeyRegex() + L")(?:" + separator + L" *" + ValuesRegex() + L")?";
+}
+
+std::wstring OptionSyntax::NotContainRegex(const std::wstring& excluded) const
+{
+	// Goal: "" or "(?!excluded)"
+
+	if (excluded.empty()) return L"";
+	return L"(?!" + excluded + L")";
 }
 
 std::wstring OptionSyntax::SerialValuesRegex(const std::wstring& excluded) const
@@ -96,8 +102,3 @@ std::wstring OptionSyntax::ValueRegex(const std::wstring& excluded) const
 	return L"(?:" + noSymbols + noSeparator + L".)+";
 }
 
-std::wstring OptionSyntax::VerificationRegex() const
-{
-	// Goal: "((^| +)option)* *"
-	return L"((^| +)" + OptionRegex() + L")* *";
-}

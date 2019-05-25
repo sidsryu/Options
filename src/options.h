@@ -28,10 +28,10 @@ public:
 
 private:
 	bool ValidCommandLine(const std::wstring& commandLine) const;
-	bool VerifyRegex(const std::wstring& str, const std::wstring& pattern) const;
+	bool VerifySyntax(const std::wstring& str, const std::wstring& syntax) const;
 	bool ParseOptions(const std::wstring& commandLine) const;
 
-private:
+private:	
 	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
 	std::unique_ptr<OptionSyntax> m_syntax;
 };

@@ -17,9 +17,11 @@ public:
 
 	std::wstring GetSerialSeparator() const;
 
-	std::wstring VerificationRegex() const;
+	std::wstring WholeCommandLine() const;
+	std::wstring SingleOption(void) const;
+
+private:
 	std::wstring NotContainRegex(const std::wstring& text) const;
-	std::wstring OptionRegex(void) const;
 	std::wstring SerialValuesRegex(const std::wstring& excluded) const;
 	std::wstring KeyRegex() const;
 	std::wstring ValuesRegex() const;

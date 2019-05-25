@@ -20,21 +20,21 @@ bool Options::Parse(const std::wstring& commandLine) const
 
 bool Options::ValidCommandLine(const std::wstring& commandLine) const
 {
-	auto verification = m_syntax->VerificationRegex();
-	return VerifyRegex(commandLine, verification);
+	auto syntax = m_syntax->WholeCommandLine();
+	return VerifySyntax(commandLine, syntax);
 }
 
-bool Options::VerifyRegex(const std::wstring& str, const std::wstring& pattern) const
+bool Options::VerifySyntax(const std::wstring& str, const std::wstring& syntax) const
 {
-	std::wregex p(pattern);
+	std::wregex pattern(syntax);
 
-	std::match_results<std::wstring::const_iterator> m;
-	return std::regex_match(str, m, p);
+	std::match_results<std::wstring::const_iterator> match;
+	return std::regex_match(str, match, pattern);
 }
 
 bool Options::ParseOptions(const std::wstring& commandLine) const
 {
-	std::wregex optionPattern(m_syntax->OptionRegex());
+	std::wregex optionPattern(m_syntax->SingleOption());
 
 	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
 	for (std::wsregex_token_iterator it = begin; it != end; it++)
