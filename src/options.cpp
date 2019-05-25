@@ -42,7 +42,7 @@ bool Options::ValidCommandLine(std::wstring commandLine)
 	auto end = L")*"; // 0개 이상의 옵션
 
 	auto delimiter = L"(^| +)"; // 옵션 구분자. 첫 옵션을 제외하곤 공백문자로 구분된다.
-	auto option = MakeMatchOption();
+	auto option = OptionRegex();
 	auto rtrim = L" *";
 
 	std::wstringstream ss;
@@ -58,7 +58,7 @@ bool Options::ValidCommandLine(std::wstring commandLine)
 
 bool Options::ParseOptions(std::wstring commandLine)
 {
-	std::wregex optionPattern(MakeMatchOption());
+	std::wregex optionPattern(OptionRegex());
 
 	std::wsregex_token_iterator begin(commandLine.begin(), commandLine.end(), optionPattern), end;
 	for (std::wsregex_token_iterator it = begin; it != end; it++)
@@ -76,15 +76,15 @@ bool Options::ParseOptions(std::wstring commandLine)
 
 		for (auto& optionSet : m_listofOption)
 		{
-			if (!optionSet->Match(option))	continue;
-			if (!optionSet->SetArgument(arguments, m_symbols->GetSerialSeparator()))	return false;
+			if (!optionSet->Match(option)) continue;
+			if (!optionSet->SetArgument(arguments, m_symbols->GetSerialSeparator())) return false;
 		}
 	}
 
 	return true;
 }
 
-std::wstring Options::MakeNotMatch(std::wstring text)
+std::wstring Options::NotContainRegex(std::wstring text)
 {
 	if (text.empty())
 	{
@@ -95,15 +95,15 @@ std::wstring Options::MakeNotMatch(std::wstring text)
 	return L"(?!" + text + L")";
 }
 
-std::wstring Options::MakeMatchOption(void)
+std::wstring Options::OptionRegex(void)
 {
 	// Goal: "switch(key)(separator(values))?"
 	// like "-key" or "-key=values"
 
 	auto switch_symbol = m_symbols->GetSwitch();
 
-	auto key = MakeMatchKey();
-	auto values = MakeMatchValues();
+	auto key = KeyRegex();
+	auto values = ValuesRegex();
 
 	std::wstringstream ss;
 	ss << switch_symbol << key << values;
@@ -111,7 +111,7 @@ std::wstring Options::MakeMatchOption(void)
 	return ss.str();
 }
 
-std::wstring Options::MakeMatchValue(std::wstring notMatch)
+std::wstring Options::ValueRegex(std::wstring notMatch)
 {
 	// Goal: "((first_value)(rest_value)*)
 	// Goal: "((?:no_separator.)+)(?:separator(?:no_separator.)+)*)"
@@ -119,8 +119,8 @@ std::wstring Options::MakeMatchValue(std::wstring notMatch)
 	auto begin = L"(";
 	auto end = L")";
 
-	auto no_match = MakeNotMatch(notMatch);
-	auto no_separator = MakeNotMatch(m_symbols->GetSerialSeparator());
+	auto no_match = NotContainRegex(notMatch);
+	auto no_separator = NotContainRegex(m_symbols->GetSerialSeparator());
 	auto first_value = L"(?:" + no_match + no_separator + L".)+";
 
 	auto separator = m_symbols->GetSerialSeparator();
@@ -133,7 +133,7 @@ std::wstring Options::MakeMatchValue(std::wstring notMatch)
 	return ss.str();
 }
 
-std::wstring Options::MakeMatchKey()
+std::wstring Options::KeyRegex()
 {
 	// Goal: "((?:no_switch_no_separator.)+)"
 	// switch와 separator가 포함되지 않은 연속된 문자열
@@ -141,8 +141,8 @@ std::wstring Options::MakeMatchKey()
 	auto begin = L"(";
 	auto end = L")";
 
-	auto no_switch = MakeNotMatch(m_symbols->GetSwitch());
-	auto no_separator = MakeNotMatch(m_symbols->GetKeyValueSeparator());
+	auto no_switch = NotContainRegex(m_symbols->GetSwitch());
+	auto no_separator = NotContainRegex(m_symbols->GetKeyValueSeparator());
 	auto key = L"(?:" + no_switch + no_separator + L".)+";
 
 
@@ -152,7 +152,7 @@ std::wstring Options::MakeMatchKey()
 	return ss.str();
 }
 
-std::wstring Options::MakeMatchValues()
+std::wstring Options::ValuesRegex()
 {
 	// Goal: "(?:separator *(?:quotation_string|serial_values))?"
 
@@ -162,8 +162,8 @@ std::wstring Options::MakeMatchValues()
 	auto separator = m_symbols->GetKeyValueSeparator();
 	auto ltrim = L" *";
 
-	auto quotation_string = MakeMatchString();
-	auto serial_values = MakeMatchValue(m_symbols->GetSwitch());
+	auto quotation_string = QuotationStringRegex();
+	auto serial_values = ValueRegex(m_symbols->GetSwitch());
 
 	auto values = L"(?:" + quotation_string + L"|" + serial_values + L")";
 
@@ -174,7 +174,7 @@ std::wstring Options::MakeMatchValues()
 	return ss.str();
 }
 
-std::wstring Options::MakeMatchString()
+std::wstring Options::QuotationStringRegex()
 {
-	return L"\"" + MakeMatchValue(L"\"") + L"\"";
+	return L"\"" + ValueRegex(L"\"") + L"\"";
 }

@@ -30,12 +30,12 @@ private:
 	bool ValidCommandLine(std::wstring commandLine);
 	bool ParseOptions(std::wstring commandLine);
 
-	std::wstring MakeNotMatch(std::wstring text);
-	std::wstring MakeMatchOption(void);
-	std::wstring MakeMatchValue(std::wstring notMatch);
-	std::wstring MakeMatchKey();
-	std::wstring MakeMatchValues();
-	std::wstring MakeMatchString();
+	std::wstring NotContainRegex(std::wstring text);
+	std::wstring OptionRegex(void);
+	std::wstring ValueRegex(std::wstring notMatch);
+	std::wstring KeyRegex();
+	std::wstring ValuesRegex();
+	std::wstring QuotationStringRegex();
 
 private:
 	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
