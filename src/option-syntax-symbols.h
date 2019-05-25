@@ -3,11 +3,11 @@
 #include <string>
 
 namespace options {
-class OptionSyntaxSymbols
+class Symbols
 {
 public:
-	OptionSyntaxSymbols();
-	virtual ~OptionSyntaxSymbols();
+	Symbols();
+	virtual ~Symbols();
 
 	bool SetSigil(const std::wstring& sigil);
 	bool SetSeparator(const std::wstring& separator);

@@ -4,13 +4,13 @@
 #include <memory>
 
 namespace options {
-class OptionSyntaxSymbols;
+class Symbols;
 
-class OptionSyntax
+class Syntax
 {
 public:
-	OptionSyntax();
-	virtual ~OptionSyntax();
+	Syntax();
+	virtual ~Syntax();
 
 	bool SetSigil(const std::wstring& sigil);
 	bool SetSeparator(const std::wstring& separator);
@@ -22,15 +22,15 @@ public:
 	std::wstring BooleanValue() const;
 
 private:
-	std::wstring NotContain(const std::wstring& text) const;
-	std::wstring SerialValues(const std::wstring& excluded) const;
 	std::wstring SingleKey() const;
 	std::wstring WholeValues() const;
-	std::wstring SingleValue(const std::wstring& excluded) const;
 	std::wstring QuotedWholeValues() const;
 	std::wstring PlainWholeValues() const;
+	std::wstring SerialValues(const std::wstring& excluded) const;
+	std::wstring SingleValue(const std::wstring& excluded) const;
+	std::wstring NotContain(const std::wstring& text) const;
 
 private:
-	std::unique_ptr<OptionSyntaxSymbols> m_symbols;
+	std::unique_ptr<Symbols> m_symbols;
 };
 }

@@ -2,35 +2,35 @@
 #include "option-syntax-symbols.h"
 
 namespace options {
-OptionSyntax::OptionSyntax()
-	: m_symbols(std::make_unique<OptionSyntaxSymbols>())
+Syntax::Syntax()
+	: m_symbols(std::make_unique<Symbols>())
 {}
 
-OptionSyntax::~OptionSyntax()
+Syntax::~Syntax()
 {}
 
-bool OptionSyntax::SetSigil(const std::wstring& sigil)
+bool Syntax::SetSigil(const std::wstring& sigil)
 {
 	return m_symbols->SetSigil(sigil);
 }
 
-bool OptionSyntax::SetSeparator(const std::wstring& separator)
+bool Syntax::SetSeparator(const std::wstring& separator)
 {
 	return m_symbols->SetSeparator(separator);
 }
 
-bool OptionSyntax::SetSerialer(const std::wstring& serialer)
+bool Syntax::SetSerialer(const std::wstring& serialer)
 {
 	return m_symbols->SetSerialer(serialer);
 }
 
-std::wstring OptionSyntax::WholeCommandLine() const
+std::wstring Syntax::WholeCommandLine() const
 {
 	// Goal: "((^| +)option)* *"
 	return L"((^| +)" + SingleOption() + L")* *";
 }
 
-std::wstring OptionSyntax::SingleOption() const
+std::wstring Syntax::SingleOption() const
 {
 	// Goal: "sigil(key)(?:separator *values)?"
 	// like "-key" or "-key=values"
@@ -42,7 +42,7 @@ std::wstring OptionSyntax::SingleOption() const
 		L"(" + SingleKey() + L")(?:" + separator + L" *" + WholeValues() + L")?";
 }
 
-std::wstring OptionSyntax::SingleKey() const
+std::wstring Syntax::SingleKey() const
 {
 	// Goal: "(?:no_contain_sigil_and_separator.)+"
 
@@ -52,25 +52,25 @@ std::wstring OptionSyntax::SingleKey() const
 	return L"(?:" + noSigil + noSeparator + L".)+";
 }
 
-std::wstring OptionSyntax::WholeValues() const
+std::wstring Syntax::WholeValues() const
 {
 	// Goal: "(?:quoted_values|plain_values)"
 	return L"(?:" + QuotedWholeValues() + L"|" + PlainWholeValues() + L")";
 }
 
-std::wstring OptionSyntax::QuotedWholeValues() const
+std::wstring Syntax::QuotedWholeValues() const
 {
 	// Goal: R"("not_contain_quote_values")"
 	return L"\"" + SerialValues(L"\"") + L"\"";
 }
 
-std::wstring OptionSyntax::PlainWholeValues() const
+std::wstring Syntax::PlainWholeValues() const
 {
 	// Goal: "not_contain_sigil_values"
 	return SerialValues(m_symbols->GetSigil());
 }
 
-std::wstring OptionSyntax::SerialValues(const std::wstring& excluded) const
+std::wstring Syntax::SerialValues(const std::wstring& excluded) const
 {
 	// Goal: "(value(?:serialervalue)*)"
 
@@ -80,7 +80,7 @@ std::wstring OptionSyntax::SerialValues(const std::wstring& excluded) const
 	return L"(" + value + L"(?:" + serialer + value + L")*)";
 }
 
-std::wstring OptionSyntax::SingleValue(const std::wstring& excluded) const
+std::wstring Syntax::SingleValue(const std::wstring& excluded) const
 {
 	// Goal: "(?:no_contain_symbols.)+"
 
@@ -90,7 +90,7 @@ std::wstring OptionSyntax::SingleValue(const std::wstring& excluded) const
 	return L"(?:" + noMatch + noSerialer + L".)+";
 }
 
-std::wstring OptionSyntax::NotContain(const std::wstring& excluded) const
+std::wstring Syntax::NotContain(const std::wstring& excluded) const
 {
 	// Goal: "" or "(?!excluded)"
 
@@ -98,7 +98,7 @@ std::wstring OptionSyntax::NotContain(const std::wstring& excluded) const
 	return L"(?!" + excluded + L")";
 }
 
-std::wstring OptionSyntax::PopSingleValue() const
+std::wstring Syntax::PopSingleValue() const
 {
 	// Goal: " ?(value) *(?:serialer)?"
 	// sigil, quote 이미 제외되어 있음
@@ -107,7 +107,7 @@ std::wstring OptionSyntax::PopSingleValue() const
 	return L" ?(" + SingleValue({}) + L") *(?:" + serialer + L")?";
 }
 
-std::wstring OptionSyntax::BooleanValue() const
+std::wstring Syntax::BooleanValue() const
 {
 	// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
 	return L" *(true|t|yes|y|enable|e|allow|a)? *";

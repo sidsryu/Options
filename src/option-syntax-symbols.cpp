@@ -11,23 +11,23 @@ std::wstring EscapeRegex(std::wstring text)
 }
 }
 
-OptionSyntaxSymbols::OptionSyntaxSymbols()
+Symbols::Symbols()
 	: m_sigil(L"-")
 	, m_separator(L" ")
 	, m_serialer(L" ")
 {}
 
-OptionSyntaxSymbols::~OptionSyntaxSymbols()
+Symbols::~Symbols()
 {}
 
-bool OptionSyntaxSymbols::SetSigil(const std::wstring& sigil)
+bool Symbols::SetSigil(const std::wstring& sigil)
 {
 	// Emtpy sigil 허용 - commandLine 전체를 하나의 옵션으로 취급하게된다.
 	m_sigil = EscapeRegex(sigil);
 	return true;
 }
 
-bool OptionSyntaxSymbols::SetSeparator(const std::wstring& separator)
+bool Symbols::SetSeparator(const std::wstring& separator)
 {
 	if (separator.empty()) return false;
 
@@ -35,7 +35,7 @@ bool OptionSyntaxSymbols::SetSeparator(const std::wstring& separator)
 	return true;
 }
 
-bool OptionSyntaxSymbols::SetSerialer(const std::wstring& serialer)
+bool Symbols::SetSerialer(const std::wstring& serialer)
 {
 	if (serialer.empty()) return false;
 
@@ -43,17 +43,17 @@ bool OptionSyntaxSymbols::SetSerialer(const std::wstring& serialer)
 	return true;
 }
 
-std::wstring OptionSyntaxSymbols::GetSigil() const
+std::wstring Symbols::GetSigil() const
 {
 	return m_sigil;
 }
 
-std::wstring OptionSyntaxSymbols::GetSeparator() const
+std::wstring Symbols::GetSeparator() const
 {
 	return m_separator;
 }
 
-std::wstring OptionSyntaxSymbols::GetSerialer() const
+std::wstring Symbols::GetSerialer() const
 {
 	return m_serialer;
 }

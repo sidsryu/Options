@@ -3,13 +3,13 @@
 #include "option-context-base.h"
 
 namespace options {
-class OptionContextSerial : public OptionContextBase
+class SerialValueContext : public BaseContext
 {
 public:
-	OptionContextSerial(const std::wstring& key, const std::wstring& description);
-	virtual ~OptionContextSerial();
+	SerialValueContext(const std::wstring& key, const std::wstring& description);
+	virtual ~SerialValueContext();
 
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+	virtual bool ParseValues(const std::wstring& values, const Syntax& syntax)
 		override;
 
 protected:

@@ -3,7 +3,7 @@
 
 namespace options {
 Options::Options()
-	: m_syntax(std::make_unique<OptionSyntax>())
+	: m_syntax(std::make_unique<Syntax>())
 {}
 
 Options::~Options()

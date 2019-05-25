@@ -9,10 +9,10 @@ namespace options {
 
 // 기본 템플릿 - 템플릿 특수화가 구현되지 않은 타입 사용 시, 빌드에러를 낸다.
 template<typename T>
-class OptionContext : public OptionContextBase
+class Context : public BaseContext
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description,
+	Context(const std::wstring& key, const std::wstring& description,
 		T& outValue)
 	{}
 
@@ -22,18 +22,18 @@ public:
 
 // 불리언 옵션 - 옵션값을 읽지 않는다. 옵션 스위치만 있어도 true 설정
 template<>
-class OptionContext<bool> : public OptionContextBase
+class Context<bool> : public BaseContext
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description,
+	Context(const std::wstring& key, const std::wstring& description,
 		bool& outValue)
-		: OptionContextBase(key, description)
+		: BaseContext(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = false;
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+	virtual bool ParseValues(const std::wstring& values, const Syntax& syntax)
 		override
 	{
 		auto booleanValue = syntax.BooleanValue();
@@ -56,18 +56,18 @@ private:
 
 // 문자열 옵션 - 옵션값을 통채로 읽는다.
 template<>
-class OptionContext<std::wstring> : public OptionContextBase
+class Context<std::wstring> : public BaseContext
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description,
+	Context(const std::wstring& key, const std::wstring& description,
 		std::wstring& outValue)
-		: OptionContextBase(key, description)
+		: BaseContext(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = {};
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+	virtual bool ParseValues(const std::wstring& values, const Syntax& syntax)
 		override
 	{
 		m_outValue = values;
@@ -81,18 +81,18 @@ private:
 
 // 정수 옵션 - 숫자로 읽는다. 숫자가 아닌 값 읽으면 0.
 template<>
-class OptionContext<int> : public OptionContextBase
+class Context<int> : public BaseContext
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description,
+	Context(const std::wstring& key, const std::wstring& description,
 		int& outValue)
-		: OptionContextBase(key, description)
+		: BaseContext(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = 0;
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+	virtual bool ParseValues(const std::wstring& values, const Syntax& syntax)
 		override
 	{
 		m_outValue = std::stoi(values.c_str());
@@ -106,12 +106,12 @@ private:
 
 // 문자열 목록 옵션 - 시리얼러 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionContext<std::vector<std::wstring>> : public OptionContextSerial
+class Context<std::vector<std::wstring>> : public SerialValueContext
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description,
+	Context(const std::wstring& key, const std::wstring& description,
 		std::vector<std::wstring>& outValue)
-		: OptionContextSerial(key, description)
+		: SerialValueContext(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = {};
@@ -130,12 +130,12 @@ private:
 
 // 숫자 목록 옵션 - 시리얼러 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionContext<std::vector<int> > : public OptionContextSerial
+class Context<std::vector<int> > : public SerialValueContext
 {
 public:
-	OptionContext(const std::wstring& key, const std::wstring& description,
+	Context(const std::wstring& key, const std::wstring& description,
 		std::vector<int>& outValue)
-		: OptionContextSerial(key, description)
+		: SerialValueContext(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = {};

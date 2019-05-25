@@ -3,16 +3,16 @@
 #include <string>
 
 namespace options {
-class OptionSyntax;
+class Syntax;
 
-class OptionContextBase
+class BaseContext
 {
 public:
-	OptionContextBase(const std::wstring& key, const std::wstring& description);
-	virtual ~OptionContextBase();
+	BaseContext(const std::wstring& key, const std::wstring& description);
+	virtual ~BaseContext();
 
 	bool IsKey(const std::wstring& option) const;
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax)
+	virtual bool ParseValues(const std::wstring& values, const Syntax& syntax)
 		= 0;
 
 private:

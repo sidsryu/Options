@@ -1,16 +1,16 @@
 #include "option-context-base.h"
 
 namespace options {
-OptionContextBase::OptionContextBase(const std::wstring& key,
+BaseContext::BaseContext(const std::wstring& key,
 	const std::wstring& description)
 	: m_key(key)
 	, m_description(description)
 {}
 
-OptionContextBase::~OptionContextBase()
+BaseContext::~BaseContext()
 {}
 
-bool OptionContextBase::IsKey(const std::wstring& key) const
+bool BaseContext::IsKey(const std::wstring& key) const
 {
 	return m_key == key;
 }

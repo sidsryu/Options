@@ -3,16 +3,16 @@
 #include <regex>
 
 namespace options {
-OptionContextSerial::OptionContextSerial(
+SerialValueContext::SerialValueContext(
 	const std::wstring& key, const std::wstring& description)
-	: OptionContextBase(key, description)
+	: BaseContext(key, description)
 {}
 
-OptionContextSerial::~OptionContextSerial()
+SerialValueContext::~SerialValueContext()
 {}
 
-bool OptionContextSerial::ParseValues(const std::wstring& values,
-	const OptionSyntax& syntax)
+bool SerialValueContext::ParseValues(const std::wstring& values,
+	const Syntax& syntax)
 {
 	auto popSingleValue = syntax.PopSingleValue();
 	std::wregex pattern(popSingleValue);
