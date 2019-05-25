@@ -76,114 +76,76 @@ bool Options::SetSerialSeparator(const std::wstring& newSerialSeparator)
 	return m_symbols->SetSerialSeparator(newSerialSeparator);
 }
 
-std::wstring Options::NotContainRegex(const std::wstring& text) const
+std::wstring Options::NotContainRegex(const std::wstring& excluded) const
 {
-	if (text.empty())
-	{
-		return L"";
-	}
+	// Goal: "" or "(?!excluded)"
 
-	// look-around 응용
-	return L"(?!" + text + L")";
+	if (excluded.empty()) return L"";
+	return L"(?!" + excluded + L")";
 }
 
 std::wstring Options::OptionRegex(void) const
 {
-	// Goal: "switch(key)(separator(values))?"
+	// Goal: "switch(key)(?:separator *values)?"
 	// like "-key" or "-key=values"
 
-	auto switch_symbol = m_symbols->GetSwitch();
+	auto switchSymbol = m_symbols->GetSwitch();
+	auto separator = m_symbols->GetKeyValueSeparator();
 
-	auto key = KeyRegex();
-	auto values = ValuesRegex();
-
-	std::wstringstream ss;
-	ss << switch_symbol << key << values;
-
-	return ss.str();
+	return switchSymbol +
+		L"(" + KeyRegex() + L")(?:" + separator + L" *" + ValuesRegex() + L")?";
 }
 
-std::wstring Options::ValueRegex(const std::wstring& notMatch) const
+std::wstring Options::SerialValuesRegex(const std::wstring& excluded) const
 {
-	// Goal: "((first_value)(rest_value)*)
-	// Goal: "((?:no_separator.)+)(?:separator(?:no_separator.)+)*)"
+	// Goal: "(value(?:separator value)*)"
 
-	auto begin = L"(";
-	auto end = L")";
-
-	auto no_match = NotContainRegex(notMatch);
-	auto no_separator = NotContainRegex(m_symbols->GetSerialSeparator());
-	auto first_value = L"(?:" + no_match + no_separator + L".)+";
-
+	auto value = ValueRegex(excluded);
 	auto separator = m_symbols->GetSerialSeparator();
-	auto rest_values = L"(?:" + separator + first_value + L")*";
 
-
-	std::wstringstream ss;
-	ss << begin << first_value << rest_values << end;
-
-	return ss.str();
+	return L"(" + value + L"(?:" + separator + value + L")*)";
 }
 
 std::wstring Options::KeyRegex() const
 {
-	// Goal: "((?:no_switch_no_separator.)+)"
-	// switch와 separator가 포함되지 않은 연속된 문자열
+	// Goal: "(?:no_contain_switch_and_separator.)+"
 
-	auto begin = L"(";
-	auto end = L")";
+	auto noSwitch = NotContainRegex(m_symbols->GetSwitch());
+	auto noSeparator = NotContainRegex(m_symbols->GetKeyValueSeparator());
 
-	auto no_switch = NotContainRegex(m_symbols->GetSwitch());
-	auto no_separator = NotContainRegex(m_symbols->GetKeyValueSeparator());
-	auto key = L"(?:" + no_switch + no_separator + L".)+";
-
-
-	std::wstringstream ss;
-	ss << begin << key << end;
-
-	return ss.str();
+	return L"(?:" + noSwitch + noSeparator + L".)+";
 }
 
 std::wstring Options::ValuesRegex() const
 {
-	// Goal: "(?:separator *(?:quotation_string|serial_values))?"
-
-	auto begin = L"(?:"; // 캡처 안함
-	auto end = L")?"; // 0 or 1개, key만 있을 수 있음.
-
-	auto separator = m_symbols->GetKeyValueSeparator();
-	auto ltrim = L" *";
-
-	auto quotation_string = QuotationStringRegex();
-	auto serial_values = ValueRegex(m_symbols->GetSwitch());
-
-	auto values = L"(?:" + quotation_string + L"|" + serial_values + L")";
-
-
-	std::wstringstream ss;
-	ss << begin << separator << ltrim << values << end;
-
-	return ss.str();
+	// Goal: "(?:quotation_values|not_quotation_values)"
+	return L"(?:" + QuotationValuesRegex() + L"|" + NotQuotationValuesRegex() + L")";
 }
 
-std::wstring Options::QuotationStringRegex() const
+std::wstring Options::QuotationValuesRegex() const
 {
-	return L"\"" + ValueRegex(L"\"") + L"\"";
+	// Goal: R"("not_contain_quote_values")"
+	return L"\"" + SerialValuesRegex(L"\"") + L"\"";
+}
+
+std::wstring Options::NotQuotationValuesRegex() const
+{
+	// Goal: "not_contain_switch_values"
+	return SerialValuesRegex(m_symbols->GetSwitch());
+}
+
+std::wstring Options::ValueRegex(const std::wstring& excluded) const
+{
+	// Goal: "(?:no_contain_symbols.)+"
+
+	auto noSymbols = NotContainRegex(excluded);
+	auto noSeparator = NotContainRegex(m_symbols->GetSerialSeparator());
+
+	return L"(?:" + noSymbols + noSeparator + L".)+";
 }
 
 std::wstring Options::VerificationRegex() const
 {
 	// Goal: "((^| +)option)* *"
-
-	auto begin = L"(";
-	auto end = L")*"; // 0개 이상의 옵션
-
-	auto delimiter = L"(^| +)"; // 옵션 구분자. 첫 옵션을 제외하곤 공백문자로 구분된다.
-	auto option = OptionRegex();
-	auto rtrim = L" *";
-
-	std::wstringstream ss;
-	ss << begin << delimiter << option << end << rtrim;
-
-	return ss.str();
+	return L"((^| +)" + OptionRegex() + L")* *";
 }

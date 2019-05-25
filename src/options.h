@@ -32,12 +32,14 @@ private:
 	bool ParseOptions(const std::wstring& commandLine) const;
 
 	std::wstring VerificationRegex() const;
-	std::wstring NotContainRegex(const std::wstring& text) const;
+	std::wstring NotContainRegex(const std::wstring& text) const;	
 	std::wstring OptionRegex(void) const;
-	std::wstring ValueRegex(const std::wstring& notMatch) const;
+	std::wstring SerialValuesRegex(const std::wstring& excluded) const;
 	std::wstring KeyRegex() const;
 	std::wstring ValuesRegex() const;
-	std::wstring QuotationStringRegex() const;
+	std::wstring ValueRegex(const std::wstring& excluded) const;
+	std::wstring QuotationValuesRegex() const;
+	std::wstring NotQuotationValuesRegex() const;
 
 private:
 	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
