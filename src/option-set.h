@@ -8,8 +8,8 @@ template<typename T>
 class OptionSet: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring option, std::wstring description, T& outValue)
-		: OptionSetBase(option, description)
+	OptionSet(std::wstring key, std::wstring description, T& outValue)
+		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -26,8 +26,8 @@ template<>
 class OptionSet<bool>: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring option, std::wstring description, bool& outValue)
-		: OptionSetBase(option, description)
+	OptionSet(std::wstring key, std::wstring description, bool& outValue)
+		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = false;
@@ -58,8 +58,8 @@ template<>
 class OptionSet<std::wstring>: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring option, std::wstring description, std::wstring& outValue)
-		: OptionSetBase(option, description)
+	OptionSet(std::wstring key, std::wstring description, std::wstring& outValue)
+		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -80,8 +80,8 @@ template<>
 class OptionSet<int>: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring option, std::wstring description, int& outValue)
-		: OptionSetBase(option, description)
+	OptionSet(std::wstring key, std::wstring description, int& outValue)
+		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 		m_outValue = 0;
@@ -103,8 +103,8 @@ template<>
 class OptionSet<std::vector<std::wstring> >: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring option, std::wstring description, std::vector<std::wstring>& outValue)
-		: OptionSetBase(option, description)
+	OptionSet(std::wstring key, std::wstring description, std::vector<std::wstring>& outValue)
+		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 	}
@@ -129,8 +129,8 @@ template<>
 class OptionSet<std::vector<int> >: public OptionSetBase
 {
 public:
-	OptionSet(std::wstring option, std::wstring description, std::vector<int>& outValue)
-		: OptionSetBase(option, description)
+	OptionSet(std::wstring key, std::wstring description, std::vector<int>& outValue)
+		: OptionSetBase(key, description)
 		, m_outValue(outValue)
 	{
 	}

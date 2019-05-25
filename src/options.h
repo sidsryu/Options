@@ -2,7 +2,7 @@
 
 #include "option-set.h"
 #include <string>
-#include <list>
+#include <vector>
 
 class OptionSetBase;
 
@@ -13,9 +13,9 @@ public:
 	virtual ~Options();
 
 	template<typename T>
-	void Add(std::wstring option, std::wstring description, T& outValue)
+	void Add(std::wstring key, std::wstring description, T& bindingVariable)
 	{
-		m_listOptions.push_back(new OptionSet<T>(option, description, outValue));
+		m_listofOption.push_back(new OptionSet<T>(key, description, bindingVariable));
 	}
 
 	bool Parse(std::wstring commandLine);
@@ -34,7 +34,7 @@ private:
 	std::wstring MakeMatchValue(std::wstring notMatch);
 
 private:
-	std::list<OptionSetBase*> m_listOptions;
+	std::vector<OptionSetBase*> m_listofOption;
 	std::wstring m_switch;
 	std::wstring m_keyValueSeparator;
 	std::wstring m_serialSeparator;

@@ -47,7 +47,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(fileList[2] == L"third");
 	}
 
-	SECTION("Check multiple values with a single-capture")
+	SECTION("Check multiple values with a single binded variable")
 	{
 		std::wstring filenames;
 		options.Add(L"file", L"", filenames);
@@ -108,7 +108,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(fileList[2] == L"third");
 	}
 
-	SECTION("Use custom value serial separator with a single-capture")
+	SECTION("Use custom value serial separator with a single binded variable")
 	{
 		std::wstring filenames;
 
@@ -159,7 +159,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(fileList[2] == L"third");
 	}
 
-	SECTION("Use multiple character value serial separator with a single-capture")
+	SECTION("Use multiple character value serial separator with a single binded variable")
 	{
 		std::wstring filenames;
 
@@ -188,7 +188,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(fileList[2] == L"third");
 	}
 
-	SECTION("Use multiple character all-in-one with a single-capture")
+	SECTION("Use multiple character all-in-one with a single binded variable")
 	{
 		std::wstring filenames;
 
@@ -259,7 +259,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		CHECK(fileList[2] == L"3-rd"); // 스위치 포함 문자열
 	}
 
-	SECTION("Escape double quotes value with a single-capture")
+	SECTION("Escape double quotes value with a single binded variable")
 	{
 		std::wstring filenames;
 

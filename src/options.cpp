@@ -12,7 +12,7 @@ Options::Options()
 
 Options::~Options()
 {
-	for (OptionSetBase* optionSet : m_listOptions)
+	for (OptionSetBase* optionSet : m_listofOption)
 	{
 		delete optionSet;
 	}
@@ -91,7 +91,7 @@ bool Options::ParseOptions(std::wstring commandLine)
 		std::wstring option = optionResult[1].str();
 		std::wstring arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]´Â µû¿ÈÇ¥ ¹­ÀÎ °ª, [3]Àº ÀÏ¹İ °ª
 
-		for (OptionSetBase* optionSet : m_listOptions)
+		for (OptionSetBase* optionSet : m_listofOption)
 		{
 			if (!optionSet->Match(option))	continue;				
 			if (!optionSet->SetArgument(arguments, m_serialSeparator))	return false;				

@@ -1,9 +1,9 @@
 #include "option-set.h"
 #include <sstream>
 
-OptionSetBase::OptionSetBase(std::wstring option, std::wstring description)
-: m_option(option)
-, m_description(description)
+OptionSetBase::OptionSetBase(std::wstring key, std::wstring description)
+	: m_key(key)
+	, m_description(description)
 {
 	// do nothing
 }
@@ -13,9 +13,9 @@ OptionSetBase::~OptionSetBase()
 	// do nothing
 }
 
-bool OptionSetBase::Match(std::wstring option)			
+bool OptionSetBase::Match(std::wstring key)
 { 
-	return m_option == option;
+	return m_key == key;
 }
 
 bool OptionSetBase::Split(std::wstring arguments, std::wstring serialSeparator)
