@@ -14,7 +14,8 @@ public:
 	{
 	}
 
-	// bool ParseValues() - 구현안함. 템플릿 특수화가 구현되지 않은 타입 사용 시 빌드에러를 낸다.
+	// 구현안함. 템플릿 특수화가 구현되지 않은 타입 사용 시 빌드에러를 낸다.
+	 virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) = delete;
 
 private:
 	T& m_outValue;
@@ -33,7 +34,7 @@ public:
 		m_outValue = false;
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
 	{
 		// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
 		std::wregex pattern(L" *(true|t|yes|y|enable|e|allow|a)? *", std::regex_constants::icase);
@@ -64,7 +65,7 @@ public:
 	{
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
 	{
 		m_outValue = values;
 		return true;
@@ -87,7 +88,7 @@ public:
 		m_outValue = 0;
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
 	{
 		m_outValue = _wtoi(values.c_str());
 		return true;
@@ -109,9 +110,9 @@ public:
 	{
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
 	{
-		return Split(values, serialer);
+		return Split(values, syntax);
 	}
 
 	virtual bool PushSplitedValue(const std::wstring& value) override
@@ -135,9 +136,9 @@ public:
 	{
 	}
 
-	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) override
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
 	{
-		return Split(values, serialer);
+		return Split(values, syntax);
 	}
 
 	virtual bool PushSplitedValue(const std::wstring& value) override

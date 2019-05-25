@@ -35,7 +35,6 @@ bool Options::VerifySyntax(const std::wstring& str, const std::wstring& syntax) 
 bool Options::ParseOptions(const std::wstring& commandLine) const
 {
 	auto singleOption = m_syntax->SingleOption();
-	auto popSingleValue = m_syntax->PopSingleValue();
 
 	std::wregex optionPattern(singleOption);
 
@@ -56,7 +55,7 @@ bool Options::ParseOptions(const std::wstring& commandLine) const
 		for (auto& optionSet : m_listofOption)
 		{
 			if (!optionSet->IsKey(key)) continue;
-			if (!optionSet->ParseValues(values, popSingleValue)) return false;
+			if (!optionSet->ParseValues(values, *m_syntax.get())) return false;
 		}
 	}
 

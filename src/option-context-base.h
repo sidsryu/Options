@@ -2,6 +2,8 @@
 
 #include <string>
 
+class OptionSyntax;
+
 class OptionContextBase
 {
 public:
@@ -9,10 +11,10 @@ public:
 	virtual ~OptionContextBase();
 
 	bool IsKey(const std::wstring& option) const;
-	virtual bool ParseValues(const std::wstring& values, const std::wstring& serialer) = 0;
+	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) = 0;
 
 protected:
-	bool Split(const std::wstring& values, const std::wstring& serialer);
+	bool Split(const std::wstring& values, const OptionSyntax& syntax);
 	virtual bool PushSplitedValue(const std::wstring& value) { return false; }
 
 private:
