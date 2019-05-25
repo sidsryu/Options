@@ -9,7 +9,7 @@ Options::Options()
 Options::~Options()
 {}
 
-bool Options::Parse(const std::wstring& commandLine)
+bool Options::Parse(const std::wstring& commandLine) const
 {
 	if (!ValidCommandLine(commandLine))
 	{
@@ -19,13 +19,13 @@ bool Options::Parse(const std::wstring& commandLine)
 	return ParseOptions(commandLine);
 }
 
-bool Options::ValidCommandLine(const std::wstring& commandLine)
+bool Options::ValidCommandLine(const std::wstring& commandLine) const
 {
 	auto verification = VerificationRegex();
 	return VerifyRegex(commandLine, verification);
 }
 
-bool Options::VerifyRegex(const std::wstring& str, const std::wstring& pattern)
+bool Options::VerifyRegex(const std::wstring& str, const std::wstring& pattern) const
 {
 	std::wregex p(pattern);
 
@@ -33,7 +33,7 @@ bool Options::VerifyRegex(const std::wstring& str, const std::wstring& pattern)
 	return std::regex_match(str, m, p);
 }
 
-bool Options::ParseOptions(const std::wstring& commandLine)
+bool Options::ParseOptions(const std::wstring& commandLine) const
 {
 	std::wregex optionPattern(OptionRegex());
 
@@ -76,7 +76,7 @@ bool Options::SetSerialSeparator(const std::wstring& newSerialSeparator)
 	return m_symbols->SetSerialSeparator(newSerialSeparator);
 }
 
-std::wstring Options::NotContainRegex(const std::wstring& text)
+std::wstring Options::NotContainRegex(const std::wstring& text) const
 {
 	if (text.empty())
 	{
@@ -87,7 +87,7 @@ std::wstring Options::NotContainRegex(const std::wstring& text)
 	return L"(?!" + text + L")";
 }
 
-std::wstring Options::OptionRegex(void)
+std::wstring Options::OptionRegex(void) const
 {
 	// Goal: "switch(key)(separator(values))?"
 	// like "-key" or "-key=values"
@@ -103,7 +103,7 @@ std::wstring Options::OptionRegex(void)
 	return ss.str();
 }
 
-std::wstring Options::ValueRegex(const std::wstring& notMatch)
+std::wstring Options::ValueRegex(const std::wstring& notMatch) const
 {
 	// Goal: "((first_value)(rest_value)*)
 	// Goal: "((?:no_separator.)+)(?:separator(?:no_separator.)+)*)"
@@ -125,7 +125,7 @@ std::wstring Options::ValueRegex(const std::wstring& notMatch)
 	return ss.str();
 }
 
-std::wstring Options::KeyRegex()
+std::wstring Options::KeyRegex() const
 {
 	// Goal: "((?:no_switch_no_separator.)+)"
 	// switch와 separator가 포함되지 않은 연속된 문자열
@@ -144,7 +144,7 @@ std::wstring Options::KeyRegex()
 	return ss.str();
 }
 
-std::wstring Options::ValuesRegex()
+std::wstring Options::ValuesRegex() const
 {
 	// Goal: "(?:separator *(?:quotation_string|serial_values))?"
 
@@ -166,12 +166,12 @@ std::wstring Options::ValuesRegex()
 	return ss.str();
 }
 
-std::wstring Options::QuotationStringRegex()
+std::wstring Options::QuotationStringRegex() const
 {
 	return L"\"" + ValueRegex(L"\"") + L"\"";
 }
 
-std::wstring Options::VerificationRegex()
+std::wstring Options::VerificationRegex() const
 {
 	// Goal: "((^| +)option)* *"
 

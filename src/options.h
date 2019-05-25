@@ -20,24 +20,24 @@ public:
 		m_listofOption.push_back(std::make_unique<OptionSet<T>>(key, description, bindingVariable));
 	}
 
-	bool Parse(const std::wstring& commandLine);
+	bool Parse(const std::wstring& commandLine) const;
 
 	bool SetSwitch(const std::wstring& newSwitch);
 	bool SetKeyValueSeparator(const std::wstring& newKeyValueSeparator);
 	bool SetSerialSeparator(const std::wstring& newSerialSeparator);
 
 private:
-	bool ValidCommandLine(const std::wstring& commandLine);
-	bool VerifyRegex(const std::wstring& str, const std::wstring& pattern);
-	bool ParseOptions(const std::wstring& commandLine);
+	bool ValidCommandLine(const std::wstring& commandLine) const;
+	bool VerifyRegex(const std::wstring& str, const std::wstring& pattern) const;
+	bool ParseOptions(const std::wstring& commandLine) const;
 
-	std::wstring VerificationRegex();
-	std::wstring NotContainRegex(const std::wstring& text);
-	std::wstring OptionRegex(void);
-	std::wstring ValueRegex(const std::wstring& notMatch);
-	std::wstring KeyRegex();
-	std::wstring ValuesRegex();
-	std::wstring QuotationStringRegex();
+	std::wstring VerificationRegex() const;
+	std::wstring NotContainRegex(const std::wstring& text) const;
+	std::wstring OptionRegex(void) const;
+	std::wstring ValueRegex(const std::wstring& notMatch) const;
+	std::wstring KeyRegex() const;
+	std::wstring ValuesRegex() const;
+	std::wstring QuotationStringRegex() const;
 
 private:
 	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
