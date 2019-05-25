@@ -1,8 +1,8 @@
 #pragma once
 
 #include "option-context-base.h"
+#include "option-syntax.h"
 #include <regex>
-
 
 template<typename T>
 class OptionSet : public OptionContextBase
@@ -36,8 +36,8 @@ public:
 
 	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
 	{
-		// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
-		std::wregex pattern(L" *(true|t|yes|y|enable|e|allow|a)? *", std::regex_constants::icase);
+		auto booleanValue = syntax.BooleanValue();
+		std::wregex pattern(booleanValue, std::regex_constants::icase);
 
 		std::match_results<std::wstring::const_iterator> result;
 		if (!std::regex_match(values, result, pattern))

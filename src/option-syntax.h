@@ -18,6 +18,7 @@ public:
 	std::wstring WholeCommandLine() const;
 	std::wstring SingleOption() const;
 	std::wstring PopSingleValue() const;
+	std::wstring BooleanValue() const;
 
 private:
 	std::wstring NotContain(const std::wstring& text) const;
@@ -27,7 +28,7 @@ private:
 	std::wstring SingleValue(const std::wstring& excluded) const;
 	std::wstring QuotedWholeValues() const;
 	std::wstring PlaneWholeValues() const;
-
+	
 private:
 	std::unique_ptr<OptionSyntaxSymbols> m_symbols;
 };

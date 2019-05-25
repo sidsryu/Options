@@ -105,3 +105,9 @@ std::wstring OptionSyntax::PopSingleValue() const
 	auto serialer = m_symbols->GetSerialer();
 	return L" ?(" + SingleValue({}) + L") *(?:" + serialer + L")?";
 }
+
+std::wstring OptionSyntax::BooleanValue() const
+{
+	// 옵션값이 없거나 true, yes, enable, allow 값을 가지면 true. 그 외 모두 false
+	return L" *(true|t|yes|y|enable|e|allow|a)? *";
+}
