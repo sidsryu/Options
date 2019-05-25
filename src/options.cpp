@@ -1,14 +1,10 @@
-#include "Options.h"
+#include "options.h"
+#include "option-syntax-symbols.h"
 #include <sstream>
 
 Options::Options()
-: m_switch(L"-")
-, m_keyValueSeparator(L" ")
-, m_serialSeparator(L" ")
-, m_quotation(L"\"")
-{
-	// do nothing
-}
+	: m_symbols(new OptionSyntaxSymbols())
+{}
 
 Options::~Options()
 {
@@ -30,27 +26,17 @@ bool Options::Parse(std::wstring commandLine)
 
 bool Options::SetSwitch(std::wstring newSwitch)
 {
-	// EmtpySwitch 허용 - commandLine 전체를 하나의 옵션으로 취급하게된다.
-	m_switch = MakeEscape(newSwitch);
-	return true;
+	return m_symbols->SetSwitch(newSwitch);
 }
 
 bool Options::SetKeyValueSeparator(std::wstring newKeyValueSeparator)
 {
-	if (newKeyValueSeparator.empty())	return false;
-
-	m_keyValueSeparator = MakeEscape(newKeyValueSeparator);
-
-	return true;
+	return m_symbols->SetKeyValueSeparator(newKeyValueSeparator);
 }
 
 bool Options::SetSerialSeparator(std::wstring newSerialSeparator)
 {
-	if (newSerialSeparator.empty())	return false;
-
-	m_serialSeparator = MakeEscape(newSerialSeparator);
-
-	return true;
+	return m_symbols->SetSerialSeparator(newSerialSeparator);
 }
 
 bool Options::ValidCommandLine(std::wstring commandLine)
@@ -94,33 +80,11 @@ bool Options::ParseOptions(std::wstring commandLine)
 		for (OptionSetBase* optionSet : m_listofOption)
 		{
 			if (!optionSet->Match(option))	continue;				
-			if (!optionSet->SetArgument(arguments, m_serialSeparator))	return false;				
+			if (!optionSet->SetArgument(arguments, m_symbols->GetSerialSeparator()))	return false;
 		}
 	}
 
 	return true;
-}
-
-std::wstring Options::MakeEscape(std::wstring text)
-{
-	std::wstring escapeText = text;
-
-	std::wstring::size_type pos = 0;
-	for(;;)
-	{			
-		// default regex ordinary character (ECMAScript)
-		pos = escapeText.find_first_of(L"^$\\.*+?()[]{}|", pos);	
-
-		if (pos == std::wstring::npos)
-		{
-			break;
-		}
-
-		escapeText.insert(pos, L"\\");
-		pos += 2;
-	}
-
-	return escapeText;
 }
 
 std::wstring Options::MakeNotMatch(std::wstring text)
@@ -137,22 +101,22 @@ std::wstring Options::MakeNotMatch(std::wstring text)
 std::wstring Options::MakeMatchOption(void)
 {
 	std::wstringstream maker;
-	maker	<< m_switch									// 옵션 스위치
+	maker	<< m_symbols->GetSwitch()					// 옵션 스위치
 			<< "("
 				<< "(?:"
-					<< MakeNotMatch(m_switch)
-					<< MakeNotMatch(m_keyValueSeparator)
+					<< MakeNotMatch(m_symbols->GetSwitch())
+					<< MakeNotMatch(m_symbols->GetKeyValueSeparator())
 				<< ".)+"
 			<< ")"
 			<< "(?:"									// 옵션값 시작
-				<< m_keyValueSeparator							
+				<< m_symbols->GetKeyValueSeparator()
 				<< " *"
 				<< "(?:"
-					<< m_quotation
-						<< MakeMatchValue(m_quotation)	// 따옴표로 시작하면, 스위치 무시
-					<< m_quotation
+					<< L"\""
+						<< MakeMatchValue(L"\"")	// 따옴표로 시작하면, 스위치 무시
+					<< L"\""
 				<< "|"
-					<< MakeMatchValue(m_switch)
+					<< MakeMatchValue(m_symbols->GetSwitch())
 				<< ")"
 			<< ")?";
 
@@ -165,13 +129,13 @@ std::wstring Options::MakeMatchValue(std::wstring notMatch)
 	maker	<< "("
 				<< "(?:"							// 첫 옵션값
 					<< MakeNotMatch(notMatch)
-					<< MakeNotMatch(m_serialSeparator)					
+					<< MakeNotMatch(m_symbols->GetSerialSeparator())					
 				<< ".)+"
 				<< "(?:"							// 나머지 옵션값들
-				<< m_serialSeparator
+				<< m_symbols->GetSerialSeparator()
 					<< "(?:"														
 						<< MakeNotMatch(notMatch)
-						<< MakeNotMatch(m_serialSeparator)						
+						<< MakeNotMatch(m_symbols->GetSerialSeparator())						
 					<< ".)+"
 				<< ")*"
 			<< ")";

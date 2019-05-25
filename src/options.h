@@ -3,8 +3,10 @@
 #include "option-set.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 class OptionSetBase;
+class OptionSyntaxSymbols;
 
 class Options
 {
@@ -28,15 +30,11 @@ private:
 	bool ValidCommandLine(std::wstring commandLine);
 	bool ParseOptions(std::wstring commandLine);
 	
-	std::wstring MakeEscape(std::wstring text);
 	std::wstring MakeNotMatch(std::wstring text);
 	std::wstring MakeMatchOption(void);
 	std::wstring MakeMatchValue(std::wstring notMatch);
 
 private:
 	std::vector<OptionSetBase*> m_listofOption;
-	std::wstring m_switch;
-	std::wstring m_keyValueSeparator;
-	std::wstring m_serialSeparator;
-	std::wstring m_quotation;
+	std::unique_ptr<OptionSyntaxSymbols> m_symbols;
 };

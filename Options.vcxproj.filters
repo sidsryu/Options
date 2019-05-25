@@ -19,6 +19,9 @@
     <ClCompile Include="src\option-set-base.cpp">
       <Filter>options</Filter>
     </ClCompile>
+    <ClCompile Include="src\option-syntax-symbols.cpp">
+      <Filter>options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extern\catch.hpp">
@@ -31,6 +34,9 @@
       <Filter>options</Filter>
     </ClInclude>
     <ClInclude Include="src\option-set-base.h">
+      <Filter>options</Filter>
+    </ClInclude>
+    <ClInclude Include="src\option-syntax-symbols.h">
       <Filter>options</Filter>
     </ClInclude>
   </ItemGroup>
