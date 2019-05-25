@@ -25,6 +25,9 @@
     <ClCompile Include="src\option-context-base.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="src\option-context-serial.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extern\catch.hpp">
@@ -43,6 +46,9 @@
       <Filter>syntax</Filter>
     </ClInclude>
     <ClInclude Include="src\option-context-base.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\option-context-serial.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>

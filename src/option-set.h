@@ -1,6 +1,7 @@
 #pragma once
 
 #include "option-context-base.h"
+#include "option-context-serial.h"
 #include "option-syntax.h"
 #include <regex>
 
@@ -101,18 +102,13 @@ private:
 
 // 문자열 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<std::wstring>> : public OptionContextBase
+class OptionSet<std::vector<std::wstring>> : public OptionContextSerial
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<std::wstring>& outValue)
-		: OptionContextBase(key, description)
+		: OptionContextSerial(key, description)
 		, m_outValue(outValue)
 	{
-	}
-
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
-	{
-		return Split(values, syntax);
 	}
 
 	virtual bool PushSplitedValue(const std::wstring& value) override
@@ -127,18 +123,13 @@ private:
 
 // 숫자 목록 옵션 - 스플리터 설정에 따라, 옵션값을 분리해 읽는다.
 template<>
-class OptionSet<std::vector<int> > : public OptionContextBase
+class OptionSet<std::vector<int> > : public OptionContextSerial
 {
 public:
 	OptionSet(const std::wstring& key, const std::wstring& description, std::vector<int>& outValue)
-		: OptionContextBase(key, description)
+		: OptionContextSerial(key, description)
 		, m_outValue(outValue)
 	{
-	}
-
-	virtual bool ParseValues(const std::wstring& values, const OptionSyntax& syntax) override
-	{
-		return Split(values, syntax);
 	}
 
 	virtual bool PushSplitedValue(const std::wstring& value) override
