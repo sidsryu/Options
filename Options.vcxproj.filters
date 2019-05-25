@@ -11,19 +11,19 @@
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="src\options.cpp">
-      <Filter>options</Filter>
+      <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="src\option-set.cpp">
-      <Filter>options</Filter>
+      <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="src\option-set-base.cpp">
-      <Filter>options</Filter>
-    </ClCompile>
-    <ClCompile Include="src\option-syntax-symbols.cpp">
-      <Filter>options</Filter>
+      <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="src\option-syntax.cpp">
-      <Filter>options</Filter>
+      <Filter>syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\option-syntax-symbols.cpp">
+      <Filter>syntax</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,19 +31,19 @@
       <Filter>extern</Filter>
     </ClInclude>
     <ClInclude Include="src\options.h">
-      <Filter>options</Filter>
+      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="src\option-set.h">
-      <Filter>options</Filter>
+      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="src\option-set-base.h">
-      <Filter>options</Filter>
+      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="src\option-syntax-symbols.h">
-      <Filter>options</Filter>
+      <Filter>syntax</Filter>
     </ClInclude>
     <ClInclude Include="src\option-syntax.h">
-      <Filter>options</Filter>
+      <Filter>syntax</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,8 +53,11 @@
     <Filter Include="extern">
       <UniqueIdentifier>{0083d38e-2f0e-4886-9e27-97ef65bd1185}</UniqueIdentifier>
     </Filter>
-    <Filter Include="options">
+    <Filter Include="parser">
       <UniqueIdentifier>{77eaf08b-60c1-4a30-a6bb-f04297207cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="syntax">
+      <UniqueIdentifier>{ef0c94dc-eb93-456d-bde2-64021a1b79cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
