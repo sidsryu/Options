@@ -17,7 +17,7 @@ public:
 	template<typename T>
 	void Add(std::wstring key, std::wstring description, T& bindingVariable)
 	{
-		m_listofOption.push_back(new OptionSet<T>(key, description, bindingVariable));
+		m_listofOption.push_back(std::make_unique<OptionSet<T>>(key, description, bindingVariable));
 	}
 
 	bool Parse(std::wstring commandLine);
@@ -35,6 +35,6 @@ private:
 	std::wstring MakeMatchValue(std::wstring notMatch);
 
 private:
-	std::vector<OptionSetBase*> m_listofOption;
+	std::vector<std::unique_ptr<OptionSetBase>> m_listofOption;
 	std::unique_ptr<OptionSyntaxSymbols> m_symbols;
 };

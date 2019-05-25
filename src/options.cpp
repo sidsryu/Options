@@ -3,16 +3,11 @@
 #include <sstream>
 
 Options::Options()
-	: m_symbols(new OptionSyntaxSymbols())
+	: m_symbols(std::make_unique<OptionSyntaxSymbols>())
 {}
 
 Options::~Options()
-{
-	for (OptionSetBase* optionSet : m_listofOption)
-	{
-		delete optionSet;
-	}
-}
+{}
 
 bool Options::Parse(std::wstring commandLine)
 {
@@ -77,7 +72,7 @@ bool Options::ParseOptions(std::wstring commandLine)
 		std::wstring option = optionResult[1].str();
 		std::wstring arguments = optionResult[2].matched ? optionResult[2].str() : optionResult[3].str();  // [2]는 따옴표 묶인 값, [3]은 일반 값
 
-		for (OptionSetBase* optionSet : m_listofOption)
+		for (auto& optionSet : m_listofOption)
 		{
 			if (!optionSet->Match(option))	continue;				
 			if (!optionSet->SetArgument(arguments, m_symbols->GetSerialSeparator()))	return false;
