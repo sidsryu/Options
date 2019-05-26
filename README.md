@@ -21,7 +21,7 @@ VS2019 project. Copy all source files in `/src `.
 
 ## Usage
 
-Defaul command line format.
+Default command line format.
 ```
 app.exe -log -file filename1 filename2 -path foldername
 ```
@@ -45,6 +45,34 @@ options.Parser(commandLine);
 if (isLog) { /* process a log */ }
 if (0 < fileList.size()) { /* process source files */ }
 if (!foldername.empty()) { /* process a destination folder */ }
+```
+
+
+## Supported Command Line Formats
+
+Options supports many different formats by runtime settings.
+
+```
+# default format
+app.exe -log -source filename1 filename2 -target path
+
+# free different sigil
+app.exe /log /source filename1 filename2 /target path
+
+# free long sigil
+app.exe --help
+
+# no sigil
+app.exe launch ip port
+
+# free key-value separtor
+app.exe -source=filename
+
+# free serial values separator
+app.exe -source filename1, filename2, filename3
+
+# quote values
+app.exe -path "../../whitespace name file.txt"
 ```
 
 
