@@ -101,7 +101,7 @@ std::wstring Syntax::NotContain(const std::wstring& excluded) const
 std::wstring Syntax::PopSingleValue() const
 {
 	// Goal: " ?(value) *(?:serialer)?"
-	// sigil, quote ÀÌ¹Ì Á¦¿ÜµÇ¾î ÀÖÀ½
+	// sigil, quote ì´ë¯¸ ì œì™¸ë˜ì–´ ìˆìŒ
 
 	auto serialer = m_symbols->GetSerialer();
 	return L" ?(" + SingleValue({}) + L") *(?:" + serialer + L")?";
@@ -109,7 +109,7 @@ std::wstring Syntax::PopSingleValue() const
 
 std::wstring Syntax::BooleanValue() const
 {
-	// ¿É¼Ç°ªÀÌ ¾ø°Å³ª true, yes, enable, allow °ªÀ» °¡Áö¸é true. ±× ¿Ü ¸ğµÎ false
+	// ì˜µì…˜ê°’ì´ ì—†ê±°ë‚˜ true, yes, enable, allow ê°’ì„ ê°€ì§€ë©´ true. ê·¸ ì™¸ ëª¨ë‘ false
 	return L" *(true|t|yes|y|enable|e|allow|a)? *";
 }
 }

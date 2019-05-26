@@ -257,7 +257,7 @@ TEST_CASE("Parse command line for easy case.", "[basic]")
 		REQUIRE(3 == fileList.size());
 		CHECK(fileList[0] == L"first");
 		CHECK(fileList[1] == L"second double");
-		CHECK(fileList[2] == L"3-rd"); // ½ºÀ§Ä¡ Æ÷ÇÔ ¹®ÀÚ¿­
+		CHECK(fileList[2] == L"3-rd"); // Sigil í¬í•¨ ë¬¸ìì—´
 	}
 
 	SECTION("Escape double quotes value with a single binded variable")

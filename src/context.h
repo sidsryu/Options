@@ -7,7 +7,7 @@
 
 namespace options {
 
-// ±âº» ÅÛÇÃ¸´ - ÅÛÇÃ¸´ Æ¯¼öÈ­°¡ ±¸ÇöµÇÁö ¾ÊÀº Å¸ÀÔ »ç¿ë ½Ã, ºôµå¿¡·¯¸¦ ³½´Ù.
+// ê¸°ë³¸ í…œí”Œë¦¿ - í…œí”Œë¦¿ íŠ¹ìˆ˜í™”ê°€ êµ¬í˜„ë˜ì§€ ì•Šì€ íƒ€ìž… ì‚¬ìš© ì‹œ, ë¹Œë“œì—ëŸ¬ë¥¼ ë‚¸ë‹¤.
 template<typename T>
 class Context : public BaseContext
 {
@@ -16,11 +16,11 @@ public:
 		T& outValue)
 	{}
 
-	// ParseValues() ºôµå¿¡·¯¸¦ ³»±âÀ§ÇØ ±¸Çö¾ÈÇÔ.
+	// ParseValues() ë¹Œë“œì—ëŸ¬ë¥¼ ë‚´ê¸°ìœ„í•´ êµ¬í˜„ì•ˆí•¨.
 };
 
 
-// ºÒ¸®¾ð ¿É¼Ç - ¿É¼Ç°ªÀ» ÀÐÁö ¾Ê´Â´Ù. ¿É¼Ç ½ºÀ§Ä¡¸¸ ÀÖ¾îµµ true ¼³Á¤
+// ë¶ˆë¦¬ì–¸ ì˜µì…˜ - ì˜µì…˜ê°’ì„ ì½ì§€ ì•ŠëŠ”ë‹¤. ì˜µì…˜ ìŠ¤ìœ„ì¹˜ë§Œ ìžˆì–´ë„ true ì„¤ì •
 template<>
 class Context<bool> : public BaseContext
 {
@@ -54,7 +54,7 @@ private:
 };
 
 
-// ¹®ÀÚ¿­ ¿É¼Ç - ¿É¼Ç°ªÀ» ÅëÃ¤·Î ÀÐ´Â´Ù.
+// ë¬¸ìžì—´ ì˜µì…˜ - ì˜µì…˜ê°’ì„ í†µì±„ë¡œ ì½ëŠ”ë‹¤.
 template<>
 class Context<std::wstring> : public BaseContext
 {
@@ -79,7 +79,7 @@ private:
 };
 
 
-// Á¤¼ö ¿É¼Ç - ¼ýÀÚ·Î ÀÐ´Â´Ù. ¼ýÀÚ°¡ ¾Æ´Ñ °ª ÀÐÀ¸¸é 0.
+// ì •ìˆ˜ ì˜µì…˜ - ìˆ«ìžë¡œ ì½ëŠ”ë‹¤. ìˆ«ìžê°€ ì•„ë‹Œ ê°’ ì½ìœ¼ë©´ 0.
 template<>
 class Context<int> : public BaseContext
 {
@@ -104,7 +104,7 @@ private:
 };
 
 
-// ¹®ÀÚ¿­ ¸ñ·Ï ¿É¼Ç - ½Ã¸®¾ó·¯ ¼³Á¤¿¡ µû¶ó, ¿É¼Ç°ªÀ» ºÐ¸®ÇØ ÀÐ´Â´Ù.
+// ë¬¸ìžì—´ ëª©ë¡ ì˜µì…˜ - ì‹œë¦¬ì–¼ëŸ¬ ì„¤ì •ì— ë”°ë¼, ì˜µì…˜ê°’ì„ ë¶„ë¦¬í•´ ì½ëŠ”ë‹¤.
 template<>
 class Context<std::vector<std::wstring>> : public SerialValueContext
 {
@@ -128,7 +128,7 @@ private:
 };
 
 
-// ¼ýÀÚ ¸ñ·Ï ¿É¼Ç - ½Ã¸®¾ó·¯ ¼³Á¤¿¡ µû¶ó, ¿É¼Ç°ªÀ» ºÐ¸®ÇØ ÀÐ´Â´Ù.
+// ìˆ«ìž ëª©ë¡ ì˜µì…˜ - ì‹œë¦¬ì–¼ëŸ¬ ì„¤ì •ì— ë”°ë¼, ì˜µì…˜ê°’ì„ ë¶„ë¦¬í•´ ì½ëŠ”ë‹¤.
 template<>
 class Context<std::vector<int> > : public SerialValueContext
 {

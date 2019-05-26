@@ -22,7 +22,7 @@ Symbols::~Symbols()
 
 bool Symbols::SetSigil(const std::wstring& sigil)
 {
-	// Emtpy sigil Çã¿ë - commandLine ÀüÃ¼¸¦ ÇÏ³ªÀÇ ¿É¼ÇÀ¸·Î Ãë±ŞÇÏ°ÔµÈ´Ù.
+	// Emtpy sigil í—ˆìš© - commandLine ì „ì²´ë¥¼ í•˜ë‚˜ì˜ ì˜µì…˜ìœ¼ë¡œ ì·¨ê¸‰í•˜ê²Œëœë‹¤.
 	m_sigil = EscapeRegex(sigil);
 	return true;
 }
