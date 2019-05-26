@@ -7,8 +7,8 @@ Command line parser using regex.
 Not implemented test cases in advanced-test.cpp.
 
 - [ ] Print out auto generated help description
-- [ ] Check extra arguemnt (aka. dynamic switch)
-- [ ] Use shot switch (aka. no key-value separator)
+- [ ] Check extra arguemnt (aka. dynamic sigil)
+- [ ] Use shot flag (aka. no separator)
 - [ ] Use whole value without quotes
 - [ ] Use include whitespace values
 - [ ] Use case sensitive keys
