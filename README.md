@@ -1,6 +1,7 @@
 # Options
 Command line parser using regex.
 
+[license]: LICENSE 
 
 ## Todo
 
